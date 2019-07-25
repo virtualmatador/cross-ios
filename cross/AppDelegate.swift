@@ -33,9 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 vc.ActivateView(vc.web_view_, view_info)
         },
             // LoadImageView
-            {(me, sender, view_info)->Void in
+            {(me, sender, view_info, image_width)->Void in
                 let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().vc_!
                 vc.image_view_.sender_ = sender
+                vc.image_view_.image_width_ = image_width
                 vc.ActivateView(vc.image_view_, view_info)
         },
             // RefreshImageView

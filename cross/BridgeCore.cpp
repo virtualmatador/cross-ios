@@ -33,9 +33,9 @@ void bridge::LoadWebView(const __int32_t sender, const __int32_t view_info, cons
     load_web_view_(me_, sender, view_info, html);
 }
 
-void bridge::LoadImageView(const __int32_t sender, const __int32_t view_info)
+void bridge::LoadImageView(const __int32_t sender, const __int32_t view_info, const __int32_t image_width)
 {
-    load_image_view_(me_, sender, view_info);
+    load_image_view_(me_, sender, view_info, image_width);
 }
 
 void bridge::RefreshImageView()
@@ -136,9 +136,9 @@ void BridgeSetImageData(__int32_t* pixels)
     pixels_ = pixels;
 }
 
-void BridgeRunImageView(__int32_t sender, __int32_t width, __int32_t height)
+void BridgeRunImageView(__int32_t sender, __int32_t dpi, __int32_t width, __int32_t height)
 {
-    interface::RunImageView(sender, width, height);
+    interface::RunImageView(sender, dpi, width, height);
 }
 
 void BridgeHandle(__int32_t sender, const char* message)

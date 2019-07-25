@@ -12,6 +12,7 @@ class ImageView : UIViewController
 {
     var view_: UIImageView!
     var sender_: Int32 = 0
+    var image_width_ : Int32 = 0
     var pixels_: UnsafeMutablePointer<Int32>! = nil
     var width_: Int32 = 0
     var height_: Int32 = 0
@@ -26,14 +27,16 @@ class ImageView : UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        width_ = (Int32)(NSInteger(view_.frame.width))
-        height_ = (Int32)(NSInteger(view_.frame.height))
+        width_ = image_width_;
+        let scale = CGFloat(width_) / view_.frame.width
+        height_ = Int32(view_.frame.height * scale)
         ReleasePixels()
         pixels_ = UnsafeMutablePointer<Int32>.allocate(capacity: Int(width_ * height_))
         DispatchQueue.main.async
         {
             BridgeSetImageData(self.pixels_)
-            BridgeRunImageView(self.sender_, self.width_, self.height_)
+            BridgeRunImageView(self.sender_, Int32(UIScreen.main.scale * 160.0 * scale),
+                self.width_, self.height_)
         }
     }
     

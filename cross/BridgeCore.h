@@ -14,8 +14,8 @@ extern "C"
 #endif
 
     typedef void (*FN_ON_RESTART)(void* me);
-    typedef void (*FN_LOAD_WEB_VIEW)(void* me, const __int32_t sender, const __int32_t orientation, const char* html);
-    typedef void (*FN_LOAD_IMAGE_VIEW)(void* me, const __int32_t sender, const __int32_t orientation);
+    typedef void (*FN_LOAD_WEB_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const char* html);
+    typedef void (*FN_LOAD_IMAGE_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const __int32_t image_width);
     typedef void (*FN_REFRESH_IMAGE_VIEW)(void* me);
     typedef void (*FN_CALL_FUNCTION)(void* me, const char* function);
     typedef const char* (*FN_GET_ASSET)(void* me, const char* key);
@@ -42,7 +42,7 @@ extern "C"
     void BridgeStop();
     void BridgeRestart();
     void BridgeSetImageData(__int32_t* pixels);
-    void BridgeRunImageView(__int32_t sender, __int32_t width, __int32_t height);
+    void BridgeRunImageView(__int32_t sender, __int32_t dpi, __int32_t width, __int32_t height);
     void BridgeHandle(__int32_t sender, const char *message);
 
 #ifdef __cplusplus
