@@ -21,7 +21,8 @@ FN_GET_ASSET get_asset_;
 FN_GET_PREFERENCE get_preference_;
 FN_SET_PREFERENCE set_preference_;
 FN_POST_THREAD_MESSAGE post_thread_message_;
-__int32_t* pixels_;
+FN_EXIT exit_;
+__uint32_t* pixels_;
 
 void bridge::OnRestart()
 {
@@ -43,12 +44,12 @@ void bridge::RefreshImageView()
     refresh_image_view_(me_);
 }
 
-__int32_t* bridge::GetPixels()
+__uint32_t* bridge::GetPixels()
 {
     return pixels_;
 }
 
-void bridge::ReleasePixels(__int32_t *pixels)
+void bridge::ReleasePixels(__uint32_t *pixels)
 {
 }
 
@@ -77,6 +78,11 @@ void bridge::PostThreadMessage(__int32_t sender, const char* message)
     post_thread_message_(me_, sender, message);
 }
 
+void bridge::Exit()
+{
+    exit_(me_);
+}
+
 void BridgeBegin(void* me,
                  FN_ON_RESTART on_restart,
                  FN_LOAD_WEB_VIEW load_web_view,
@@ -86,7 +92,8 @@ void BridgeBegin(void* me,
                  FN_GET_ASSET get_asset,
                  FN_GET_PREFERENCE get_preference,
                  FN_SET_PREFERENCE set_preference,
-                 FN_POST_THREAD_MESSAGE post_thread_message)
+                 FN_POST_THREAD_MESSAGE post_thread_message,
+                 FN_EXIT exit)
 {
     me_ = me;
     on_restart_ = on_restart;
@@ -98,6 +105,7 @@ void BridgeBegin(void* me,
     get_preference_ = get_preference;
     set_preference_ = set_preference;
     post_thread_message_ = post_thread_message;
+    exit_ = exit;
     interface::Begin();
 }
 
@@ -131,7 +139,7 @@ void BridgeRestart()
     interface::Restart();
 }
 
-void BridgeSetImageData(__int32_t* pixels)
+void BridgeSetImageData(__uint32_t* pixels)
 {
     pixels_ = pixels;
 }
@@ -144,4 +152,9 @@ void BridgeRunImageView(__int32_t sender, __int32_t dpi, __int32_t width, __int3
 void BridgeHandle(__int32_t sender, const char* message)
 {
     interface::Handle(sender, message);
+}
+
+void BridgeEscape(__int32_t sender)
+{
+    interface::Escape(sender);
 }

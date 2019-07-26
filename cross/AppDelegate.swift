@@ -74,6 +74,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DispatchQueue.main.async {
                     BridgeHandle(sender, message)
                 }
+        },
+            // Exit
+            {(me) in
+                UIApplication.shared.performSelector(onMainThread: #selector(NSXPCConnection.suspend), with: nil, waitUntilDone: false)
         });
 
         return true

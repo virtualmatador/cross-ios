@@ -51,7 +51,8 @@ class ViewController: UIViewController
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask
     {
-        switch view_info_ & 3 {
+        switch (view_info_ & 3)
+        {
         case 1:
             return .portrait
         case 2:
