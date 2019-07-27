@@ -60,7 +60,7 @@ class WebView: UIViewController, WKUIDelegate, WKScriptMessageHandler, WKNavigat
                 options: JSONSerialization.ReadingOptions.init()) as! [String : Any]
             DispatchQueue.main.async
             {
-                BridgeHandle(
+                BridgeHandleAsync(
                     message_dictionary["Receiver"] as! __int32_t,
                     message_dictionary["Message"] as? String)
             }

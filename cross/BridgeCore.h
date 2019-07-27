@@ -26,6 +26,8 @@ extern "C"
     typedef void (*FN_GET_PIXELS)(void* me);
     typedef void (*FN_RELEASE_PIXELS)(void* me);
 
+    void SetImageData(__uint32_t* pixels);
+    
     void BridgeBegin(void* me,
                      FN_ON_RESTART on_restart,
                      FN_LOAD_WEB_VIEW load_web_view,
@@ -43,10 +45,9 @@ extern "C"
     void BridgeStart();
     void BridgeStop();
     void BridgeRestart();
-    void BridgeSetImageData(__uint32_t* pixels);
-    void BridgeRunImageView(__int32_t sender, __int32_t dpi, __int32_t width, __int32_t height);
-    void BridgeHandle(__int32_t sender, const char *message);
-    void BridgeEscape(__int32_t sender);
+    void BridgeEscape();
+    void BridgeHandle(const char *message);
+    void BridgeHandleAsync(__int32_t sender, const char *message);
 
 #ifdef __cplusplus
 }

@@ -83,6 +83,11 @@ void bridge::Exit()
     exit_(me_);
 }
 
+void SetImageData(__uint32_t* pixels)
+{
+    pixels_ = pixels;
+}
+
 void BridgeBegin(void* me,
                  FN_ON_RESTART on_restart,
                  FN_LOAD_WEB_VIEW load_web_view,
@@ -139,22 +144,17 @@ void BridgeRestart()
     interface::Restart();
 }
 
-void BridgeSetImageData(__uint32_t* pixels)
+void BridgeEscape()
 {
-    pixels_ = pixels;
+    interface::Escape();
 }
 
-void BridgeRunImageView(__int32_t sender, __int32_t dpi, __int32_t width, __int32_t height)
+void BridgeHandle(const char* message)
 {
-    interface::RunImageView(sender, dpi, width, height);
+    interface::Handle(message);
 }
 
-void BridgeHandle(__int32_t sender, const char* message)
+void BridgeHandleAsync(__int32_t sender, const char* message)
 {
-    interface::Handle(sender, message);
-}
-
-void BridgeEscape(__int32_t sender)
-{
-    interface::Escape(sender);
+    interface::HandleAsync(sender, message);
 }

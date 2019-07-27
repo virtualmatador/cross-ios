@@ -32,11 +32,11 @@ class ImageView : UIViewController
         height_ = Int32(view_.frame.height * scale)
         ReleasePixels()
         pixels_ = UnsafeMutablePointer<UInt32>.allocate(capacity: Int(width_ * height_))
+        let dpi = Int32(UIScreen.main.scale * 160.0 * scale)
         DispatchQueue.main.async
-        {
-            BridgeSetImageData(self.pixels_)
-            BridgeRunImageView(self.sender_, Int32(UIScreen.main.scale * 160.0 * scale),
-                self.width_, self.height_)
+        {[pixels_, sender_, width_, height_]() in
+            SetImageData(pixels_)
+            BridgeHandleAsync(sender_, "body ready \(dpi) \(width_) \(height_)")
         }
     }
     
@@ -61,22 +61,19 @@ class ImageView : UIViewController
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         let pos = touches.first?.location(in: view_)
-        let message : String = "body touch-begin \(pos!.x) \(pos!.y)"
-        BridgeHandle(sender_, message)
+        BridgeHandle("body touch-begin \(pos!.x) \(pos!.y)")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         let pos = touches.first?.location(in: view_)
-        let message : String = "body touch-move \(pos!.x) \(pos!.y)"
-        BridgeHandle(sender_, message)
+        BridgeHandle("body touch-move \(pos!.x) \(pos!.y)")
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         let pos = touches.first?.location(in: view_)
-        let message : String = "body touch-end \(pos!.x) \(pos!.y)"
-        BridgeHandle(sender_, message)
+        BridgeHandle("body touch-end \(pos!.x) \(pos!.y)")
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask
