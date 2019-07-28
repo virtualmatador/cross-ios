@@ -12,7 +12,9 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var vc_: ViewController?
+    var temp_buffer_: String?
+    var view_controller_: ViewController?
+    var root_controller_: RootController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -26,44 +28,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         },
             // LoadWebView
             {(me, sender, view_info, html)->Void in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().vc_!
-                vc.web_view_.sender_ = sender
-                vc.web_view_.html_ = String(cString : html!)
-                vc.image_view_.ReleasePixels()
-                vc.ActivateView(vc.web_view_, view_info)
+                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
+                vc.LoadWebView(sender, view_info, String(cString : html!))
         },
             // LoadImageView
             {(me, sender, view_info, image_width)->Void in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().vc_!
-                vc.image_view_.sender_ = sender
-                vc.image_view_.image_width_ = image_width
-                vc.ActivateView(vc.image_view_, view_info)
+                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
+                vc.LoadImageView(sender, view_info, image_width)
         },
             // RefreshImageView
             {(me)->Void in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().vc_!
+                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
                 vc.image_view_.Refresh()
         },
             // CallFunction
             {(me, function)->Void in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().vc_!
+                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
                 vc.web_view_.CallFunction(String(cString : function!))
         },
             // GetAsset
             {(me, key) in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().vc_!
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 let path = Bundle.main.path(
                     forResource: String(cString : key!),
                     ofType: "",
                     inDirectory: "assets")!
-                vc.temp_buffer_ = try! String(contentsOfFile: path)
-                return UnsafePointer<Int8>(vc.temp_buffer_);
+                app.temp_buffer_ = try! String(contentsOfFile: path)
+                return UnsafePointer<Int8>(app.temp_buffer_);
         },
             // GetPreference
             {(me, key) in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().vc_!
-                vc.temp_buffer_ = UserDefaults.standard.string(forKey: String(cString : key!)) ?? ""
-                return UnsafePointer<Int8>(vc.temp_buffer_)
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
+                app.temp_buffer_ = UserDefaults.standard.string(forKey: String(cString : key!)) ?? ""
+                return UnsafePointer<Int8>(app.temp_buffer_)
         },
             // SetPreference
             {(me, key, value) in
@@ -74,6 +71,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DispatchQueue.main.async {
                     BridgeHandleAsync(sender, message)
                 }
+        },
+            // AddMenu
+            {(me, option) in
+                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
+                vc.menu_options_.append(String(cString: option!))
+        },
+            // RemoveMenu
+            {(me, option) in
+                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
+                vc.menu_options_.removeAll(where:
+                { (menu: String) -> Bool in
+                    return menu == String(cString: option!)
+                })
         },
             // Exit
             {(me) in
@@ -86,8 +96,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-        BridgeStop()
-        BridgeDestroy()
+        root_controller_!.UnloadController()
+        {
+            BridgeStop()
+            BridgeDestroy()
+        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -101,8 +114,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        BridgeCreate()
-        BridgeStart()
+        root_controller_!.LoadController()
+        {
+            BridgeCreate()
+            BridgeStart()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

@@ -8,11 +8,8 @@
 
 import UIKit
 
-class ImageView : UIViewController
+class ImageView : UIImageView
 {
-    var view_: UIImageView!
-    var sender_: Int32 = 0
-    var image_width_ : Int32 = 0
     var pixels_: UnsafeMutablePointer<UInt32>! = nil
     var width_: Int32 = 0
     var height_: Int32 = 0
@@ -20,23 +17,20 @@ class ImageView : UIViewController
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        view_ = UIImageView(coder: aDecoder)
-        view = view_
     }
     
-    override func viewDidLoad()
+    func LoadView(_ sender: Int32, _ image_width: Int32)
     {
-        super.viewDidLoad()
-        width_ = image_width_;
-        let scale = CGFloat(width_) / view_.frame.width
-        height_ = Int32(view_.frame.height * scale)
-        ReleasePixels()
-        pixels_ = UnsafeMutablePointer<UInt32>.allocate(capacity: Int(width_ * height_))
-        let dpi = Int32(UIScreen.main.scale * 160.0 * scale)
         DispatchQueue.main.async
-        {[pixels_, sender_, width_, height_]() in
-            SetImageData(pixels_)
-            BridgeHandleAsync(sender_, "body ready \(dpi) \(width_) \(height_)")
+        {() in
+            self.width_ = image_width;
+            let scale = CGFloat(self.width_) / self.frame.width
+            self.height_ = Int32(self.frame.height * scale)
+            self.ReleasePixels()
+            self.pixels_ = UnsafeMutablePointer<UInt32>.allocate(capacity: Int(self.width_ * self.height_))
+            let dpi = Int32(UIScreen.main.scale * 160.0 * scale)
+            SetImageData(self.pixels_)
+            BridgeHandleAsync(sender, "body ready \(dpi) \(self.width_) \(self.height_)")
         }
     }
     
@@ -51,7 +45,7 @@ class ImageView : UIViewController
     
     func Refresh()
     {
-        view_.image = UIImage(cgImage:
+        image = UIImage(cgImage:
             CGContext(data: pixels_, width: Int(width_), height: Int(height_),
                       bitsPerComponent: 8, bytesPerRow: 4 * Int(width_),
                       space: CGColorSpace(name: CGColorSpace.genericRGBLinear)!,
@@ -60,24 +54,19 @@ class ImageView : UIViewController
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
-        let pos = touches.first?.location(in: view_)
+        let pos = touches.first?.location(in: self)
         BridgeHandle("body touch-begin \(pos!.x) \(pos!.y)")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
     {
-        let pos = touches.first?.location(in: view_)
+        let pos = touches.first?.location(in: self)
         BridgeHandle("body touch-move \(pos!.x) \(pos!.y)")
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
     {
-        let pos = touches.first?.location(in: view_)
+        let pos = touches.first?.location(in: self)
         BridgeHandle("body touch-end \(pos!.x) \(pos!.y)")
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask
-    {
-        return (UIApplication.shared.keyWindow?.rootViewController!.supportedInterfaceOrientations)!
     }
 }

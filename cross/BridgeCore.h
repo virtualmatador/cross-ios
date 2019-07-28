@@ -22,6 +22,8 @@ extern "C"
     typedef const char* (*FN_GET_PREFERENCE)(void* me, const char* key);
     typedef void (*FN_SET_PREFERENCE)(void* me, const char* key, const char* value);
     typedef void (*FN_POST_THREAD_MESSAGE)(void* me, const __int32_t sender, const char* message);
+    typedef void (*FN_ADD_MENU)(void* me, const char* option);
+    typedef void (*FN_REMOVE_MENU)(void* me, const char* option);
     typedef void (*FN_EXIT)(void* me);
     typedef void (*FN_GET_PIXELS)(void* me);
     typedef void (*FN_RELEASE_PIXELS)(void* me);
@@ -38,6 +40,8 @@ extern "C"
                      FN_GET_PREFERENCE get_preference,
                      FN_SET_PREFERENCE set_preference,
                      FN_POST_THREAD_MESSAGE post_thread_message,
+                     FN_ADD_MENU add_menu,
+                     FN_REMOVE_MENU remove_menu,
                      FN_EXIT exit);
     void BridgeEnd();
     void BridgeCreate();

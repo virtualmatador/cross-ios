@@ -6,48 +6,41 @@
 //  Copyright © 2019 shaidin. All rights reserved.
 //
 
-import UIKit
 import WebKit
 
-class WebView: UIViewController, WKUIDelegate, WKScriptMessageHandler, WKNavigationDelegate {
+class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
+{
 
-    var view_: WKWebView!
-    var sender_: Int32 = 0
-    var html_: String = ""
     var web_finish_: ((WKWebView)->Void)! = nil
 
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        let webConfiguration = WKWebViewConfiguration()
-        webConfiguration.userContentController.add(self, name: "Handler_")
-        view_ = WKWebView(frame: .zero, configuration: webConfiguration)
-        view_.uiDelegate = self
-        view_.navigationDelegate = self
-        view = view_
+        self.configuration.userContentController.add(self, name: "Handler_")
+        navigationDelegate = self
+    }
+
+    func LoadView(_ sender: Int32, _ html: String)
+    {
+        web_finish_ =
+        {(_ webView: WKWebView) in
+            webView.evaluateJavaScript("SetReceiver(\(sender));")
+        }
+        let url = Bundle.main.url(
+            forResource: html,
+            withExtension: "htm",
+            subdirectory: "html")!
+        loadFileURL(url, allowingReadAccessTo: url)
     }
     
     func CallFunction(_ function: String)
     {
-        view_!.evaluateJavaScript(function)
+        evaluateJavaScript(function)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
     {
         web_finish_(webView)
-    }
-    
-    override func viewDidLoad()
-    {
-        web_finish_ =				
-        {[sender_](_ webView: WKWebView) in
-            webView.evaluateJavaScript("SetReceiver(\(sender_));")
-        }
-        let url = Bundle.main.url(
-            forResource: html_,
-            withExtension: "htm",
-            subdirectory: "html")!
-        view_.loadFileURL(url, allowingReadAccessTo: url)
     }
     
     func userContentController(_ userContentController: WKUserContentController,
@@ -71,20 +64,20 @@ class WebView: UIViewController, WKUIDelegate, WKScriptMessageHandler, WKNavigat
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
-                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if navigationAction.navigationType != .linkActivated {
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void)
+    {
+        if (navigationAction.navigationType != .linkActivated)
+        {
             decisionHandler(.allow)
-        } else {
+        }
+        else
+        {
             decisionHandler(.cancel)
             let url = navigationAction.request.url
-            if ((url) != nil) {
+            if (url != nil)
+            {
                 UIApplication.shared.open(url!)
             }
         }
-    }
-
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask
-    {
-        return (UIApplication.shared.keyWindow?.rootViewController!.supportedInterfaceOrientations)!
     }
 }

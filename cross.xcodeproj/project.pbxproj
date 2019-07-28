@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2619F7B922E1137E0090508F /* BridgeCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2619F7B822E1137E0090508F /* BridgeCore.cpp */; };
 		2619F7DE22E18A6C0090508F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2619F7DD22E18A6C0090508F /* main.cpp */; };
+		261E538922ED583D0071BE95 /* RootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261E538822ED583D0071BE95 /* RootController.swift */; };
 		2681B9EA22E08D2000942CFC /* stage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E022E08D2000942CFC /* stage.cpp */; };
 		2681B9EB22E08D2000942CFC /* runner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E322E08D2000942CFC /* runner.cpp */; };
 		2681B9EC22E08D2000942CFC /* pack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E422E08D2000942CFC /* pack.cpp */; };
@@ -32,6 +33,7 @@
 		2619F7D822E177A30090508F /* Prebuilt.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Prebuilt.sh; sourceTree = "<group>"; };
 		2619F7DD22E18A6C0090508F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2619F7DF22E18E590090508F /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../src; sourceTree = "<group>"; };
+		261E538822ED583D0071BE95 /* RootController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
 		263DDC0F22EAB5E90072E789 /* template-info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "template-info.plist"; sourceTree = "<group>"; };
 		2681B9E022E08D2000942CFC /* stage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stage.cpp; sourceTree = "<group>"; };
 		2681B9E222E08D2000942CFC /* pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pack.h; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				2619F7B822E1137E0090508F /* BridgeCore.cpp */,
 				2619F7B722E1137E0090508F /* BridgeCore.h */,
 				26E75A2822E08C2C00D53C4B /* AppDelegate.swift */,
+				261E538822ED583D0071BE95 /* RootController.swift */,
 				26E75A2A22E08C2C00D53C4B /* ViewController.swift */,
 				26BF644D22E2509800A4C03E /* WebView.swift */,
 				26BF644F22E251A900A4C03E /* ImageView.swift */,
@@ -235,6 +238,7 @@
 				26BF645022E251A900A4C03E /* ImageView.swift in Sources */,
 				26E75A2B22E08C2C00D53C4B /* ViewController.swift in Sources */,
 				2681B9EB22E08D2000942CFC /* runner.cpp in Sources */,
+				261E538922ED583D0071BE95 /* RootController.swift in Sources */,
 				2681B9EA22E08D2000942CFC /* stage.cpp in Sources */,
 				2681B9EC22E08D2000942CFC /* pack.cpp in Sources */,
 				2619F7B922E1137E0090508F /* BridgeCore.cpp in Sources */,
