@@ -31,7 +31,7 @@ class ImageView : UIImageView
             self.ReleasePixels()
             self.pixels_ = UnsafeMutablePointer<UInt32>.allocate(capacity: Int(self.width_ * self.height_))
             SetImageData(self.pixels_)
-            BridgeHandleAsync(sender, "body ready \(Int32(self.dpi_ * scale)) \(self.width_) \(self.height_)")
+            BridgeHandleAsync(sender, "body ready \(Int32(self.dpi_ * scale)) \(self.width_) \(self.height_) \(0x00010203)")
         }
     }
     
