@@ -38,7 +38,7 @@ class ViewController: UIViewController
     func LoadImageView(_ sender: Int32, _ view_info: Int32, _ image_width: Int32)
     {
         web_view_.isHidden = true
-//        web_view_.LoadView(0, "")
+        web_view_.Clear();
         ActivateView(sender, view_info)
         {
             self.image_view_.isHidden = false
@@ -59,6 +59,11 @@ class ViewController: UIViewController
                 update()
             }
         }
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask
+    {
+        return presentingViewController!.supportedInterfaceOrientations
     }
     
     @IBAction func ShowMenu(_ sender: UIButton)

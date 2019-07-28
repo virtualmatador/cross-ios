@@ -43,6 +43,14 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
         web_finish_(webView)
     }
     
+    func Clear()
+    {
+        web_finish_ =
+        {(_ webView: WKWebView) in
+        }
+        loadHTMLString("about:blank", baseURL: nil)
+    }
+    
     func userContentController(_ userContentController: WKUserContentController,
         didReceive message: WKScriptMessage)
     {

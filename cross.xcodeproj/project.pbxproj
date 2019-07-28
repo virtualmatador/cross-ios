@@ -389,6 +389,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QH3KDF7L87;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					../asio/asio/include/,
 					"openssl/$(ARCHS)/build/include/",
@@ -414,6 +415,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QH3KDF7L87;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					../asio/asio/include/,
 					"openssl/$(ARCHS)/build/include/",
