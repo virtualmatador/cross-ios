@@ -16,7 +16,7 @@ fi
 
 export CC="${DEVELOPER_BIN_DIR}/gcc -arch ${ARCHS}";
 export CROSS_TOP="${PLATFORM_DIR}/Developer"
-export CROSS_SDK="${SDK_DIR}"
+export CROSS_SDK="$(basename ${SDK_DIR})"
 export BUILD_TOOLS="${DEVELOPER_DIR}"
 
 if [ "${ARCHS}" == "x86_64" ]
@@ -33,7 +33,7 @@ fi
 mkdir -p "openssl/${ARCHS}/"
 cd "openssl/${ARCHS}/"
 
-../../../openssl/Configure "${flaver}" no-asm no-shared --prefix="$(pwd)/build/"
+../../../openssl/Configure "${flaver}" no-asm no-shared no-engine --prefix="$(pwd)/build/"
 if [ $? -ne 0 ]
 then
     echo "ERROR: Configure ${ARCHS}"
