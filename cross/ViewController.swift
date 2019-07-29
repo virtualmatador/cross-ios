@@ -12,11 +12,11 @@ import WebKit
 class ViewController: UIViewController
 {
     var view_info_: Int32 = 0
-    var menu_options_: [String] = []
     var sender_: Int32 = 0
     
     @IBOutlet var web_view_: WebView!
     @IBOutlet var image_view_: ImageView!
+    @IBOutlet var close_button_: UIButton!
     
     required init?(coder aDecoder: NSCoder)
     {
@@ -49,13 +49,14 @@ class ViewController: UIViewController
     func ActivateView(_ sender: Int32, _ view_info: Int32, _ update: @escaping ()->Void)
     {
         sender_ = sender
-        menu_options_ = []
+        UIApplication.shared.isIdleTimerDisabled = (view_info & 4) != 0
         let root_controller = presentingViewController as! RootController
         root_controller.view_info_ = view_info
         root_controller.dismiss(animated: false)
         {
             root_controller.present(self, animated: false)
             {
+                self.close_button_.isHidden = (view_info & 8) == 0
                 update()
             }
         }
@@ -66,25 +67,8 @@ class ViewController: UIViewController
         return presentingViewController!.supportedInterfaceOrientations
     }
     
-    @IBAction func ShowMenu(_ sender: UIButton)
+    @IBAction func Escape()
     {
-        if (!menu_options_.isEmpty)
-        {
-            let menu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            BridgeHandle("menu +")
-            for option in menu_options_
-            {
-                menu.addAction(UIAlertAction(title: option, style: .default, handler:
-                {[sender_] _ in
-                    BridgeHandleAsync(sender_, "menu \(option)")
-                    BridgeHandleAsync(sender_, "menu -")
-                }))
-            }
-            menu.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:
-            {[sender_] _ in
-                BridgeHandleAsync(sender_, "menu -")
-            }))
-            present(menu, animated: true)
-        }
+        BridgeEscape();
     }
 }

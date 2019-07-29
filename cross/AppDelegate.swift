@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         BridgeBegin(UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
-             // OnRestart
+             // NeedRestart
             {(me)->Void in
                 DispatchQueue.main.async
                 {
@@ -68,22 +68,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         },
             // PostThreadMessage
             {(me, sender, message) in
-                DispatchQueue.main.async {
+                DispatchQueue.main.async
+                {
                     BridgeHandleAsync(sender, message)
                 }
-        },
-            // AddMenu
-            {(me, option) in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
-                vc.menu_options_.append(String(cString: option!))
-        },
-            // RemoveMenu
-            {(me, option) in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
-                vc.menu_options_.removeAll(where:
-                { (menu: String) -> Bool in
-                    return menu == String(cString: option!)
-                })
         },
             // Exit
             {(me) in

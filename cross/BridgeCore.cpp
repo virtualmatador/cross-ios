@@ -12,7 +12,7 @@
 
 
 void* me_;
-FN_ON_RESTART on_restart_;
+FN_NEED_RESTART need_restart_;
 FN_LOAD_WEB_VIEW load_web_view_;
 FN_LOAD_IMAGE_VIEW load_image_view_;
 FN_REFRESH_IMAGE_VIEW refresh_image_view_;
@@ -21,14 +21,12 @@ FN_GET_ASSET get_asset_;
 FN_GET_PREFERENCE get_preference_;
 FN_SET_PREFERENCE set_preference_;
 FN_POST_THREAD_MESSAGE post_thread_message_;
-FN_ADD_MENU add_menu_;
-FN_REMOVE_MENU remove_menu_;
 FN_EXIT exit_;
 __uint32_t* pixels_;
 
-void bridge::OnRestart()
+void bridge::NeedRestart()
 {
-    on_restart_(me_);
+    need_restart_(me_);
 }
 
 void bridge::LoadWebView(const __int32_t sender, const __int32_t view_info, const char* html)
@@ -80,16 +78,6 @@ void bridge::PostThreadMessage(__int32_t sender, const char* message)
     post_thread_message_(me_, sender, message);
 }
 
-void bridge::AddMenu(const char *option)
-{
-    add_menu_(me_, option);
-}
-
-void bridge::RemoveMenu(const char *option)
-{
-    remove_menu_(me_, option);
-}
-
 void bridge::Exit()
 {
     exit_(me_);
@@ -101,7 +89,7 @@ void SetImageData(__uint32_t* pixels)
 }
 
 void BridgeBegin(void* me,
-                 FN_ON_RESTART on_restart,
+                 FN_NEED_RESTART on_restart,
                  FN_LOAD_WEB_VIEW load_web_view,
                  FN_LOAD_IMAGE_VIEW load_image_view,
                  FN_REFRESH_IMAGE_VIEW refresh_image_view,
@@ -110,12 +98,10 @@ void BridgeBegin(void* me,
                  FN_GET_PREFERENCE get_preference,
                  FN_SET_PREFERENCE set_preference,
                  FN_POST_THREAD_MESSAGE post_thread_message,
-                 FN_ADD_MENU add_menu,
-                 FN_REMOVE_MENU remove_menu,
                  FN_EXIT exit)
 {
     me_ = me;
-    on_restart_ = on_restart;
+    need_restart_ = on_restart;
     load_web_view_ = load_web_view;
     load_image_view_ = load_image_view;
     refresh_image_view_ = refresh_image_view;
@@ -124,8 +110,6 @@ void BridgeBegin(void* me,
     get_preference_ = get_preference;
     set_preference_ = set_preference;
     post_thread_message_ = post_thread_message;
-    add_menu_ = add_menu;
-    remove_menu_ = remove_menu;
     exit_ = exit;
     interface::Begin();
 }
@@ -158,6 +142,11 @@ void BridgeStop()
 void BridgeRestart()
 {
     interface::Restart();
+}
+
+void BridgeEscape()
+{
+    interface::Escape();
 }
 
 void BridgeHandle(const char* message)
