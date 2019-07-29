@@ -28,20 +28,21 @@ class ImageView : UIImageView
             self.width_ = image_width;
             let scale = CGFloat(self.width_) / UIScreen.main.nativeBounds.height
             self.height_ = Int32(UIScreen.main.nativeBounds.width * scale)
-            self.ReleasePixels()
+            self.Clear()
             self.pixels_ = UnsafeMutablePointer<UInt32>.allocate(capacity: Int(self.width_ * self.height_))
             SetImageData(self.pixels_)
             BridgeHandleAsync(sender, "body ready \(Int32(self.dpi_ * scale)) \(self.width_) \(self.height_) \(0x00010203)")
         }
     }
     
-    func ReleasePixels()
+    func Clear()
     {
         if (pixels_ != nil)
         {
             pixels_.deallocate()
             pixels_ = nil
         }
+        image = nil;
     }
     
     func Refresh()

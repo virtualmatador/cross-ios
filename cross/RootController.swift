@@ -10,30 +10,44 @@ import UIKit
 
 class RootController: UIViewController
 {
-    var child_controller_: UIViewController
+    var child_controller_: ViewController
     var view_info_: Int32 = 0
     
     required init?(coder aDecoder: NSCoder)
     {
-        child_controller_ = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "container")
+        child_controller_ = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(
+            withIdentifier: "container") as! ViewController
         super.init(coder: aDecoder)
         (UIApplication.shared.delegate as! AppDelegate).root_controller_ = self
     }
     
     func LoadController(_ callback: @escaping ()->Void)
     {
-        present(child_controller_, animated: false)
+        let presentation =
         {
-            callback();
+            self.present(self.child_controller_, animated: false)
+            {
+                callback();
+            }
+        }
+        if (presentedViewController == nil)
+        {
+            presentation()
+        }
+        else
+        {
+            dismiss(animated: false)
+            {
+                presentation();
+            }
         }
     }
     
     func UnloadController(_ callback: @escaping ()->Void)
     {
-        dismiss(animated: false)
-        {
-            callback();
-        }
+        callback();
+        child_controller_.web_view_.Clear()
+        child_controller_.image_view_.Clear()
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask

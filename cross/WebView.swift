@@ -17,6 +17,7 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
     {
         super.init(coder: aDecoder)
         self.configuration.userContentController.add(self, name: "Handler_")
+        self.configuration.preferences.javaScriptEnabled = true;
         navigationDelegate = self
     }
 
@@ -48,7 +49,7 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
         web_finish_ =
         {(_ webView: WKWebView) in
         }
-        loadHTMLString("about:blank", baseURL: nil)
+        load(URLRequest(url: URL(string:"about:blank")!))
     }
     
     func userContentController(_ userContentController: WKUserContentController,

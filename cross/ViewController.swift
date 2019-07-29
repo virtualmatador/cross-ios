@@ -27,10 +27,10 @@ class ViewController: UIViewController
     func LoadWebView(_ sender: Int32, _ view_info: Int32, _ html: String)
     {
         image_view_.isHidden = true
+        image_view_.Clear()
         ActivateView(sender, view_info)
         {
             self.web_view_.isHidden = false
-            self.image_view_.ReleasePixels()
             self.web_view_.LoadView(sender, html)
         }
     }
