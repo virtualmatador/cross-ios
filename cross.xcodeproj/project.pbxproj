@@ -15,7 +15,6 @@
 		2681B9EC22E08D2000942CFC /* pack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E422E08D2000942CFC /* pack.cpp */; };
 		2681B9ED22E08D2000942CFC /* interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E622E08D2000942CFC /* interface.cpp */; };
 		2681B9F122E08D5100942CFC /* html in Resources */ = {isa = PBXBuildFile; fileRef = 2681B9F022E08D5100942CFC /* html */; };
-		269E53CC22E71CA000C77FC7 /* interface.js in Resources */ = {isa = PBXBuildFile; fileRef = 269E53CB22E71CA000C77FC7 /* interface.js */; };
 		269E53CE22E71CB600C77FC7 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 269E53CD22E71CB500C77FC7 /* Config.xcconfig */; };
 		26BF644C22E242C100A4C03E /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 26BF644B22E242C100A4C03E /* assets */; };
 		26BF644E22E2509800A4C03E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BF644D22E2509800A4C03E /* WebView.swift */; };
@@ -47,7 +46,6 @@
 		269E53C822E71C4400C77FC7 /* bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
 		269E53C922E71C4400C77FC7 /* define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = define.h; sourceTree = "<group>"; };
 		269E53CA22E71C4400C77FC7 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
-		269E53CB22E71CA000C77FC7 /* interface.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = interface.js; path = ../core/interface.js; sourceTree = "<group>"; };
 		269E53CD22E71CB500C77FC7 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		26BF644B22E242C100A4C03E /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../res/assets; sourceTree = "<group>"; };
 		26BF644D22E2509800A4C03E /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				2681B9DF22E08D2000942CFC /* core */,
 				26E75A2722E08C2C00D53C4B /* cross */,
 				2619F7D922E1786A0090508F /* Script */,
-				269E53CB22E71CA000C77FC7 /* interface.js */,
 				269E53CD22E71CB500C77FC7 /* Config.xcconfig */,
 				26E75A2622E08C2C00D53C4B /* Products */,
 			);
@@ -199,7 +196,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				26BF644C22E242C100A4C03E /* assets in Resources */,
-				269E53CC22E71CA000C77FC7 /* interface.js in Resources */,
 				26E75A3022E08C2D00D53C4B /* Assets.xcassets in Resources */,
 				26E75A2E22E08C2C00D53C4B /* Main.storyboard in Resources */,
 				269E53CE22E71CB600C77FC7 /* Config.xcconfig in Resources */,

@@ -25,7 +25,15 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
     {
         web_finish_ =
         {(_ webView: WKWebView) in
-            webView.evaluateJavaScript("SetReceiver(\(sender));")
+            webView.evaluateJavaScript(
+                "Handler = window.webkit.messageHandlers.Handler_;" +
+                "Handler_Receiver = \(sender);" +
+                "function CallHandler(message)" +
+                "{" +
+                    "Handler.postMessage(JSON.stringify(" +
+                    "{\"Receiver\": Handler_Receiver, \"Message\": message}));" +
+                "}"
+            )
         }
         let url = Bundle.main.url(
             forResource: html,
