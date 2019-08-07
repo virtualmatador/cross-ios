@@ -68,9 +68,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         },
             // PostThreadMessage
             {(me, sender, message) in
+                var msg = String(cString: message!)
                 DispatchQueue.main.async
                 {
-                    BridgeHandleAsync(sender, message)
+                    BridgeHandleAsync(sender, msg)
                 }
         },
             // Exit
