@@ -12,9 +12,9 @@
 		261E538922ED583D0071BE95 /* RootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261E538822ED583D0071BE95 /* RootController.swift */; };
 		2681B9EA22E08D2000942CFC /* stage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E022E08D2000942CFC /* stage.cpp */; };
 		2681B9EB22E08D2000942CFC /* runner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E322E08D2000942CFC /* runner.cpp */; };
-		2681B9EC22E08D2000942CFC /* pack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E422E08D2000942CFC /* pack.cpp */; };
 		2681B9ED22E08D2000942CFC /* interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E622E08D2000942CFC /* interface.cpp */; };
 		2681B9F122E08D5100942CFC /* html in Resources */ = {isa = PBXBuildFile; fileRef = 2681B9F022E08D5100942CFC /* html */; };
+		269BEE3822FB4E7800999C1B /* Prebuilt.sh in Resources */ = {isa = PBXBuildFile; fileRef = 2619F7D822E177A30090508F /* Prebuilt.sh */; };
 		269E53CE22E71CB600C77FC7 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 269E53CD22E71CB500C77FC7 /* Config.xcconfig */; };
 		26BF644C22E242C100A4C03E /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 26BF644B22E242C100A4C03E /* assets */; };
 		26BF644E22E2509800A4C03E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BF644D22E2509800A4C03E /* WebView.swift */; };
@@ -28,16 +28,13 @@
 /* Begin PBXFileReference section */
 		2619F7B722E1137E0090508F /* BridgeCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgeCore.h; sourceTree = "<group>"; };
 		2619F7B822E1137E0090508F /* BridgeCore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BridgeCore.cpp; sourceTree = "<group>"; };
-		2619F7D522E1394B0090508F /* OpenSSL.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = OpenSSL.sh; sourceTree = "<group>"; };
 		2619F7D822E177A30090508F /* Prebuilt.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Prebuilt.sh; sourceTree = "<group>"; };
 		2619F7DD22E18A6C0090508F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2619F7DF22E18E590090508F /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../src; sourceTree = "<group>"; };
 		261E538822ED583D0071BE95 /* RootController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
 		263DDC0F22EAB5E90072E789 /* template-info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "template-info.plist"; sourceTree = "<group>"; };
 		2681B9E022E08D2000942CFC /* stage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stage.cpp; sourceTree = "<group>"; };
-		2681B9E222E08D2000942CFC /* pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pack.h; sourceTree = "<group>"; };
 		2681B9E322E08D2000942CFC /* runner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = runner.cpp; sourceTree = "<group>"; };
-		2681B9E422E08D2000942CFC /* pack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pack.cpp; sourceTree = "<group>"; };
 		2681B9E522E08D2000942CFC /* interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interface.h; sourceTree = "<group>"; };
 		2681B9E622E08D2000942CFC /* interface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = interface.cpp; sourceTree = "<group>"; };
 		2681B9E722E08D2000942CFC /* stage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stage.h; sourceTree = "<group>"; };
@@ -68,15 +65,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2619F7D922E1786A0090508F /* Script */ = {
-			isa = PBXGroup;
-			children = (
-				2619F7D822E177A30090508F /* Prebuilt.sh */,
-				2619F7D522E1394B0090508F /* OpenSSL.sh */,
-			);
-			path = Script;
-			sourceTree = "<group>";
-		};
 		2681B9DF22E08D2000942CFC /* core */ = {
 			isa = PBXGroup;
 			children = (
@@ -85,8 +73,6 @@
 				269E53CA22E71C4400C77FC7 /* main.h */,
 				2681B9E622E08D2000942CFC /* interface.cpp */,
 				2681B9E522E08D2000942CFC /* interface.h */,
-				2681B9E422E08D2000942CFC /* pack.cpp */,
-				2681B9E222E08D2000942CFC /* pack.h */,
 				2681B9E022E08D2000942CFC /* stage.cpp */,
 				2681B9E722E08D2000942CFC /* stage.h */,
 				2681B9E322E08D2000942CFC /* runner.cpp */,
@@ -104,8 +90,6 @@
 				26BF644B22E242C100A4C03E /* assets */,
 				2681B9DF22E08D2000942CFC /* core */,
 				26E75A2722E08C2C00D53C4B /* cross */,
-				2619F7D922E1786A0090508F /* Script */,
-				269E53CD22E71CB500C77FC7 /* Config.xcconfig */,
 				26E75A2622E08C2C00D53C4B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,6 +116,8 @@
 				26E75A2C22E08C2C00D53C4B /* Main.storyboard */,
 				26E75A2F22E08C2D00D53C4B /* Assets.xcassets */,
 				263DDC0F22EAB5E90072E789 /* template-info.plist */,
+				2619F7D822E177A30090508F /* Prebuilt.sh */,
+				269E53CD22E71CB500C77FC7 /* Config.xcconfig */,
 			);
 			path = cross;
 			sourceTree = "<group>";
@@ -196,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26BF644C22E242C100A4C03E /* assets in Resources */,
+				269BEE3822FB4E7800999C1B /* Prebuilt.sh in Resources */,
 				26E75A3022E08C2D00D53C4B /* Assets.xcassets in Resources */,
 				26E75A2E22E08C2C00D53C4B /* Main.storyboard in Resources */,
 				269E53CE22E71CB600C77FC7 /* Config.xcconfig in Resources */,
@@ -221,7 +208,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "Script/Prebuilt.sh\nexit $?\n";
+			shellScript = "cross/Prebuilt.sh\nexit $?\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -236,7 +223,6 @@
 				2681B9EB22E08D2000942CFC /* runner.cpp in Sources */,
 				261E538922ED583D0071BE95 /* RootController.swift in Sources */,
 				2681B9EA22E08D2000942CFC /* stage.cpp in Sources */,
-				2681B9EC22E08D2000942CFC /* pack.cpp in Sources */,
 				2619F7B922E1137E0090508F /* BridgeCore.cpp in Sources */,
 				26E75A2922E08C2C00D53C4B /* AppDelegate.swift in Sources */,
 				26BF644E22E2509800A4C03E /* WebView.swift in Sources */,
@@ -386,16 +372,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QH3KDF7L87;
 				ENABLE_BITCODE = NO;
-				HEADER_SEARCH_PATHS = (
-					../asio/asio/include/,
-					"openssl/$(ARCHS)/build/include/",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/cross/Info.plist";
-				LIBRARY_SEARCH_PATHS = "openssl/$(ARCHS)/build/lib/";
-				OTHER_LDFLAGS = (
-					"-lssl",
-					"-lcrypto",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shaidin.$(TARGET_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = cross/BridgeCore.h;
@@ -412,16 +389,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QH3KDF7L87;
 				ENABLE_BITCODE = NO;
-				HEADER_SEARCH_PATHS = (
-					../asio/asio/include/,
-					"openssl/$(ARCHS)/build/include/",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/cross/Info.plist";
-				LIBRARY_SEARCH_PATHS = "openssl/$(ARCHS)/build/lib/";
-				OTHER_LDFLAGS = (
-					"-lssl",
-					"-lcrypto",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shaidin.$(TARGET_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = cross/BridgeCore.h;

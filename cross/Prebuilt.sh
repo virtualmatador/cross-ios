@@ -32,10 +32,3 @@ then
     echo "${main_cpp}" > "cross/main.cpp"
 fi
 echo "main.cpp generated."
-
-Script/OpenSSL.sh
-if [ $? -ne 0 ]
-then
-    echo "ERROR: building openssl ${ARCHS}"
-    exit -1
-fi
