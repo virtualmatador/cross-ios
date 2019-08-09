@@ -15,6 +15,7 @@
 		2681B9ED22E08D2000942CFC /* interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E622E08D2000942CFC /* interface.cpp */; };
 		2681B9F122E08D5100942CFC /* html in Resources */ = {isa = PBXBuildFile; fileRef = 2681B9F022E08D5100942CFC /* html */; };
 		269BEE3822FB4E7800999C1B /* Prebuilt.sh in Resources */ = {isa = PBXBuildFile; fileRef = 2619F7D822E177A30090508F /* Prebuilt.sh */; };
+		269BEE3B22FB717700999C1B /* helper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 269BEE3922FB717700999C1B /* helper.cpp */; };
 		269E53CE22E71CB600C77FC7 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 269E53CD22E71CB500C77FC7 /* Config.xcconfig */; };
 		26BF644C22E242C100A4C03E /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 26BF644B22E242C100A4C03E /* assets */; };
 		26BF644E22E2509800A4C03E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BF644D22E2509800A4C03E /* WebView.swift */; };
@@ -40,6 +41,8 @@
 		2681B9E722E08D2000942CFC /* stage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stage.h; sourceTree = "<group>"; };
 		2681B9E822E08D2000942CFC /* runner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = runner.h; sourceTree = "<group>"; };
 		2681B9F022E08D5100942CFC /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; name = html; path = ../../html; sourceTree = "<group>"; };
+		269BEE3922FB717700999C1B /* helper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = helper.cpp; sourceTree = "<group>"; };
+		269BEE3A22FB717700999C1B /* helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
 		269E53C822E71C4400C77FC7 /* bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
 		269E53C922E71C4400C77FC7 /* define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = define.h; sourceTree = "<group>"; };
 		269E53CA22E71C4400C77FC7 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
@@ -77,6 +80,8 @@
 				2681B9E722E08D2000942CFC /* stage.h */,
 				2681B9E322E08D2000942CFC /* runner.cpp */,
 				2681B9E822E08D2000942CFC /* runner.h */,
+				269BEE3922FB717700999C1B /* helper.cpp */,
+				269BEE3A22FB717700999C1B /* helper.h */,
 			);
 			name = core;
 			path = ../core;
@@ -223,6 +228,7 @@
 				2681B9EB22E08D2000942CFC /* runner.cpp in Sources */,
 				261E538922ED583D0071BE95 /* RootController.swift in Sources */,
 				2681B9EA22E08D2000942CFC /* stage.cpp in Sources */,
+				269BEE3B22FB717700999C1B /* helper.cpp in Sources */,
 				2619F7B922E1137E0090508F /* BridgeCore.cpp in Sources */,
 				26E75A2922E08C2C00D53C4B /* AppDelegate.swift in Sources */,
 				26BF644E22E2509800A4C03E /* WebView.swift in Sources */,

@@ -22,6 +22,8 @@ extern "C"
     typedef const char* (*FN_GET_PREFERENCE)(void* me, const char* key);
     typedef void (*FN_SET_PREFERENCE)(void* me, const char* key, const char* value);
     typedef void (*FN_POST_THREAD_MESSAGE)(void* me, const __int32_t sender, const char* message);
+    typedef void (*FN_ADD_PARAM)(void* me, const char* key, const char* value);
+    typedef void (*FN_POST_HTTP)(void* me, const __int32_t sender, const char* url, const char* callback);
     typedef void (*FN_EXIT)(void* me);
     typedef void (*FN_GET_PIXELS)(void* me);
     typedef void (*FN_RELEASE_PIXELS)(void* me);
@@ -38,6 +40,8 @@ extern "C"
                      FN_GET_PREFERENCE get_preference,
                      FN_SET_PREFERENCE set_preference,
                      FN_POST_THREAD_MESSAGE post_thread_message,
+                     FN_ADD_PARAM add_param,
+                     FN_POST_HTTP post_http,
                      FN_EXIT exit);
     void BridgeEnd();
     void BridgeCreate();

@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var temp_buffer_: String?
     var view_controller_: ViewController?
     var root_controller_: RootController?
+    var http_params_:[(String, String)]? = []
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -68,11 +69,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         },
             // PostThreadMessage
             {(me, sender, message) in
-                var msg = String(cString: message!)
+                let msg = String(cString: message!)
                 DispatchQueue.main.async
                 {
                     BridgeHandleAsync(sender, msg)
                 }
+        },
+            // AddParam
+            {(me, key, value) in
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
+                app.http_params_!.append((String(cString: key!), String(cString: value!)))
+        },
+            // PostHttp
+            {(me, sender, url, callback) in
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
+                var msg = "http \(String(cString: callback!)) "
+                let dataURL = URL(string: String(cString: url!))!
+                var request = URLRequest(url: dataURL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 60)
+                request.httpMethod = "POST"
+                request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                if (!app.http_params_!.isEmpty)
+                {
+                    var body = ""
+                    for param in app.http_params_!
+                    {
+                        body.append(param.0.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!)
+                        body.append("=")
+                        body.append(param.1.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!)
+                        body.append("&")
+                    }
+                    body.remove(at: body.index(before: body.endIndex))
+                    request.httpBody = body.data(using: String.Encoding.utf8)
+                }
+                let task = URLSession.shared.dataTask(with: request, completionHandler:
+                {(data, response, error) in
+                    if (error == nil && data != nil && response != nil && (200 ... 299) ~= (response! as! HTTPURLResponse).statusCode)
+                    {
+                        msg.append(String(data: data!, encoding: String.Encoding.utf8)!)
+                    }
+                    DispatchQueue.main.async
+                    {
+                        BridgeHandleAsync(sender, msg)
+                    }
+                })
+                task.resume()
+                app.http_params_?.removeAll()
         },
             // Exit
             {(me) in

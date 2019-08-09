@@ -11,7 +11,7 @@ import WebKit
 class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
 {
 
-    var web_finish_: ((WKWebView)->Void)! = nil
+    var web_finish_: String = ""
 
     required init?(coder aDecoder: NSCoder)
     {
@@ -24,17 +24,13 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
     func LoadView(_ sender: Int32, _ html: String)
     {
         web_finish_ =
-        {(_ webView: WKWebView) in
-            webView.evaluateJavaScript(
-                "Handler = window.webkit.messageHandlers.Handler_;" +
-                "Handler_Receiver = \(sender);" +
-                "function CallHandler(message)" +
-                "{" +
-                    "Handler.postMessage(JSON.stringify(" +
-                    "{\"Receiver\": Handler_Receiver, \"Message\": message}));" +
-                "}"
-            )
-        }
+            "Handler = window.webkit.messageHandlers.Handler_;" +
+            "Handler_Receiver = \(sender);" +
+            "function CallHandler(message)" +
+            "{" +
+                "Handler.postMessage(JSON.stringify(" +
+                "{\"Receiver\": Handler_Receiver, \"Message\": message}));" +
+            "}"
         let url = Bundle.main.url(
             forResource: html,
             withExtension: "htm",
@@ -49,14 +45,15 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
     {
-        web_finish_(webView)
+        if (!web_finish_.isEmpty)
+        {
+            webView.evaluateJavaScript(web_finish_)
+        }
     }
     
     func Clear()
     {
-        web_finish_ =
-        {(_ webView: WKWebView) in
-        }
+        web_finish_ = ""
         load(URLRequest(url: URL(string:"about:blank")!))
     }
     

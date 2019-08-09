@@ -21,6 +21,8 @@ FN_GET_ASSET get_asset_;
 FN_GET_PREFERENCE get_preference_;
 FN_SET_PREFERENCE set_preference_;
 FN_POST_THREAD_MESSAGE post_thread_message_;
+FN_ADD_PARAM add_param_;
+FN_POST_HTTP post_http_;
 FN_EXIT exit_;
 __uint32_t* pixels_;
 
@@ -78,6 +80,16 @@ void bridge::PostThreadMessage(__int32_t sender, const char* message)
     post_thread_message_(me_, sender, message);
 }
 
+void bridge::AddParam(const char* key, const char* value)
+{
+    add_param_(me_, key, value);
+}
+
+void bridge::PostHttp(__int32_t sender, const char* url, const char* callback)
+{
+    post_http_(me_, sender, url, callback);
+}
+
 void bridge::Exit()
 {
     exit_(me_);
@@ -98,6 +110,8 @@ void BridgeBegin(void* me,
                  FN_GET_PREFERENCE get_preference,
                  FN_SET_PREFERENCE set_preference,
                  FN_POST_THREAD_MESSAGE post_thread_message,
+                 FN_ADD_PARAM add_param,
+                 FN_POST_HTTP post_http,
                  FN_EXIT exit)
 {
     me_ = me;
@@ -110,6 +124,8 @@ void BridgeBegin(void* me,
     get_preference_ = get_preference;
     set_preference_ = set_preference;
     post_thread_message_ = post_thread_message;
+    add_param_ = add_param;
+    post_http_ = post_http;
     exit_ = exit;
     interface::Begin();
 }
