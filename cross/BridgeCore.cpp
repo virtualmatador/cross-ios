@@ -75,9 +75,9 @@ void bridge::SetPreference(const char* key, const char* value)
     set_preference_(me_, key, value);
 }
 
-void bridge::PostThreadMessage(__int32_t sender, const char* message)
+void bridge::PostThreadMessage(__int32_t sender, const char* id, const char* command, const char* info)
 {
-    post_thread_message_(me_, sender, message);
+    post_thread_message_(me_, sender, id, command, info);
 }
 
 void bridge::AddParam(const char* key, const char* value)
@@ -85,9 +85,9 @@ void bridge::AddParam(const char* key, const char* value)
     add_param_(me_, key, value);
 }
 
-void bridge::PostHttp(__int32_t sender, const char* url, const char* callback)
+void bridge::PostHttp(__int32_t sender, const char* url,  const char* id, const char* command)
 {
-    post_http_(me_, sender, url, callback);
+    post_http_(me_, sender, url, id, command);
 }
 
 void bridge::Exit()
@@ -165,12 +165,12 @@ void BridgeEscape()
     interface::Escape();
 }
 
-void BridgeHandle(const char* message)
+void BridgeHandle(const char* id, const char* command, const char* info)
 {
-    interface::Handle(message);
+    interface::Handle(id, command, info);
 }
 
-void BridgeHandleAsync(__int32_t sender, const char* message)
+void BridgeHandleAsync(__int32_t sender, const char* id, const char* command, const char* info)
 {
-    interface::HandleAsync(sender, message);
+    interface::HandleAsync(sender, id, command, info);
 }

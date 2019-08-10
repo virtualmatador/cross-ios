@@ -31,7 +31,7 @@ class ImageView : UIImageView
             self.Clear()
             self.pixels_ = UnsafeMutablePointer<UInt32>.allocate(capacity: Int(self.width_ * self.height_))
             SetImageData(self.pixels_)
-            BridgeHandleAsync(sender, "body ready \(Int32(self.dpi_ * scale)) \(self.width_) \(self.height_) \(0x00010203)")
+            BridgeHandleAsync(sender, "body", "ready", "\(Int32(self.dpi_ * scale)) \(self.width_) \(self.height_) \(0x00010203)")
         }
     }
     
@@ -57,19 +57,19 @@ class ImageView : UIImageView
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         let pos = touches.first?.location(in: self)
-        BridgeHandle("body touch-begin \(pos!.x) \(pos!.y)")
+        BridgeHandle("body", "touch-begin", "\(pos!.x) \(pos!.y)")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         let pos = touches.first?.location(in: self)
-        BridgeHandle("body touch-move \(pos!.x) \(pos!.y)")
+        BridgeHandle("body", "touch-move", "\(pos!.x) \(pos!.y)")
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         let pos = touches.first?.location(in: self)
-        BridgeHandle("body touch-end \(pos!.x) \(pos!.y)")
+        BridgeHandle("body", "touch-end", "\(pos!.x) \(pos!.y)")
     }
     
     func GetDpi()->CGFloat

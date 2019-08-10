@@ -21,9 +21,9 @@ extern "C"
     typedef const char* (*FN_GET_ASSET)(void* me, const char* key);
     typedef const char* (*FN_GET_PREFERENCE)(void* me, const char* key);
     typedef void (*FN_SET_PREFERENCE)(void* me, const char* key, const char* value);
-    typedef void (*FN_POST_THREAD_MESSAGE)(void* me, const __int32_t sender, const char* message);
+    typedef void (*FN_POST_THREAD_MESSAGE)(void* me, const __int32_t sender, const char* id, const char* command, const char* info);
     typedef void (*FN_ADD_PARAM)(void* me, const char* key, const char* value);
-    typedef void (*FN_POST_HTTP)(void* me, const __int32_t sender, const char* url, const char* callback);
+    typedef void (*FN_POST_HTTP)(void* me, const __int32_t sender, const char* url, const char* id, const char* command);
     typedef void (*FN_EXIT)(void* me);
     typedef void (*FN_GET_PIXELS)(void* me);
     typedef void (*FN_RELEASE_PIXELS)(void* me);
@@ -50,8 +50,8 @@ extern "C"
     void BridgeStop();
     void BridgeRestart();
     void BridgeEscape();
-    void BridgeHandle(const char *message);
-    void BridgeHandleAsync(__int32_t sender, const char *message);
+    void BridgeHandle(const char* id, const char* command, const char* info);
+    void BridgeHandleAsync(__int32_t sender, const char* id, const char* command, const char* info);
 
 #ifdef __cplusplus
 }

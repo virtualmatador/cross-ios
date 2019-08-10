@@ -68,11 +68,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UserDefaults.standard.set(String(cString: value!), forKey: String(cString: key!))
         },
             // PostThreadMessage
-            {(me, sender, message) in
-                let msg = String(cString: message!)
+            {(me, sender, id, command, info) in
+                let s_id = String(cString: id!)
+                let s_command = String(cString: command!)
+                let s_info = String(cString: info!)
                 DispatchQueue.main.async
                 {
-                    BridgeHandleAsync(sender, msg)
+                    BridgeHandleAsync(sender, s_id, s_command, s_info)
                 }
         },
             // AddParam
@@ -81,9 +83,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 app.http_params_!.append((String(cString: key!), String(cString: value!)))
         },
             // PostHttp
-            {(me, sender, url, callback) in
+            {(me, sender, url, id, command) in
                 let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
-                var msg = "http \(String(cString: callback!)) "
+                let s_id = String(cString: id!)
+                let s_command = String(cString: command!)
+                var s_info: String = ""
                 let dataURL = URL(string: String(cString: url!))!
                 var request = URLRequest(url: dataURL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 60)
                 request.httpMethod = "POST"
@@ -105,11 +109,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 {(data, response, error) in
                     if (error == nil && data != nil && response != nil && (200 ... 299) ~= (response! as! HTTPURLResponse).statusCode)
                     {
-                        msg.append(String(data: data!, encoding: String.Encoding.utf8)!)
+                        s_info = String(data: data!, encoding: String.Encoding.utf8)!
                     }
                     DispatchQueue.main.async
                     {
-                        BridgeHandleAsync(sender, msg)
+                        BridgeHandleAsync(sender, s_id, s_command, s_info)
                     }
                 })
                 task.resume()

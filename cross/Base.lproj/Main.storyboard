@@ -31,7 +31,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gy-eQ-QVd">
-                                <rect key="frame" x="392.66666666666669" y="44" width="21.333333333333314" height="21.333333333333329"/>
+                                <rect key="frame" x="382.66666666666669" y="9.9999999999999982" width="21.333333333333314" height="21.333333333333329"/>
                                 <state key="normal" backgroundImage="MenuClose"/>
                                 <connections>
                                     <action selector="Escape" destination="BYZ-38-t0r" eventType="touchUpInside" id="qCa-2a-0q9"/>
@@ -43,12 +43,12 @@
                             <constraint firstItem="Vos-xp-SwC" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="BUf-sz-gSm"/>
                             <constraint firstItem="Vos-xp-SwC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="OMG-5U-kpm"/>
                             <constraint firstItem="SS5-JA-rL1" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="PjD-Uf-pko"/>
-                            <constraint firstItem="SS5-JA-rL1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="UUI-3O-76P"/>
-                            <constraint firstItem="6gy-eQ-QVd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="VxH-pg-8Ly"/>
-                            <constraint firstItem="Vos-xp-SwC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cCG-h7-4DQ"/>
-                            <constraint firstItem="6gy-eQ-QVd" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="eDp-BC-BNK"/>
-                            <constraint firstItem="SS5-JA-rL1" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="epB-Kf-SiP"/>
-                            <constraint firstItem="Vos-xp-SwC" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="feA-PO-LN7"/>
+                            <constraint firstItem="SS5-JA-rL1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="UUI-3O-76P"/>
+                            <constraint firstItem="6gy-eQ-QVd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="10" id="VxH-pg-8Ly"/>
+                            <constraint firstItem="Vos-xp-SwC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cCG-h7-4DQ"/>
+                            <constraint firstItem="6gy-eQ-QVd" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" constant="-10" id="eDp-BC-BNK"/>
+                            <constraint firstItem="SS5-JA-rL1" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="epB-Kf-SiP"/>
+                            <constraint firstItem="Vos-xp-SwC" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="feA-PO-LN7"/>
                             <constraint firstItem="SS5-JA-rL1" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="tsh-5t-BeC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

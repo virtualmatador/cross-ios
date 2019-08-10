@@ -24,12 +24,12 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
     func LoadView(_ sender: Int32, _ html: String)
     {
         web_finish_ =
-            "Handler = window.webkit.messageHandlers.Handler_;" +
-            "Handler_Receiver = \(sender);" +
-            "function CallHandler(message)" +
+            "var Handler = window.webkit.messageHandlers.Handler_;" +
+            "var Handler_Receiver = \(sender);" +
+            "function CallHandler(id, command, info)" +
             "{" +
                 "Handler.postMessage(JSON.stringify(" +
-                "{\"Receiver\": Handler_Receiver, \"Message\": message}));" +
+                "{\"Receiver\": Handler_Receiver, \"id\": id, \"command\": command, \"info\": info}));" +
             "}"
         let url = Bundle.main.url(
             forResource: html,
@@ -69,7 +69,9 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
             {
                 BridgeHandleAsync(
                     message_dictionary["Receiver"] as! __int32_t,
-                    message_dictionary["Message"] as? String)
+                    message_dictionary["id"] as? String,
+                    message_dictionary["command"] as? String,
+                    message_dictionary["info"] as? String)
             }
         }
         catch
