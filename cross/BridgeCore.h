@@ -23,7 +23,7 @@ extern "C"
     typedef void (*FN_SET_PREFERENCE)(void* me, const char* key, const char* value);
     typedef void (*FN_POST_THREAD_MESSAGE)(void* me, const __int32_t sender, const char* id, const char* command, const char* info);
     typedef void (*FN_ADD_PARAM)(void* me, const char* key, const char* value);
-    typedef void (*FN_POST_HTTP)(void* me, const __int32_t sender, const char* url, const char* id, const char* command);
+    typedef void (*FN_POST_HTTP)(void* me, const __int32_t sender, const char* id, const char* command, const char* url);
     typedef void (*FN_EXIT)(void* me);
     typedef void (*FN_GET_PIXELS)(void* me);
     typedef void (*FN_RELEASE_PIXELS)(void* me);

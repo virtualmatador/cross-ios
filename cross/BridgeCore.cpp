@@ -7,8 +7,8 @@
 //
 
 #include "BridgeCore.h"
-#include "../../core/bridge.h"
-#include "../../core/interface.h"
+#include "../../core/src/bridge.h"
+#include "../../core/src/interface.h"
 
 
 void* me_;
@@ -85,9 +85,9 @@ void bridge::AddParam(const char* key, const char* value)
     add_param_(me_, key, value);
 }
 
-void bridge::PostHttp(__int32_t sender, const char* url,  const char* id, const char* command)
+void bridge::PostHttp(__int32_t sender,  const char* id, const char* command, const char* url)
 {
-    post_http_(me_, sender, url, id, command);
+    post_http_(me_, sender, id, command, url);
 }
 
 void bridge::Exit()

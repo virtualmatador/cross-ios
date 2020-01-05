@@ -83,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 app.http_params_!.append((String(cString: key!), String(cString: value!)))
         },
             // PostHttp
-            {(me, sender, url, id, command) in
+            {(me, sender, id, command, url) in
                 let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 let s_id = String(cString: id!)
                 let s_command = String(cString: command!)
