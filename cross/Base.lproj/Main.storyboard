@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5P4-vy-D5o">
-    <device id="retina6_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
@@ -18,20 +15,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SS5-JA-rL1" customClass="ImageView" customModule="cross" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <imageView hidden="YES" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SS5-JA-rL1" customClass="ImageView" customModule="cross" customModuleProvider="target">
                             </imageView>
                             <wkWebView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vos-xp-SwC" customClass="WebView" customModule="cross" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gy-eQ-QVd">
-                                <rect key="frame" x="382.66666666666669" y="9.9999999999999982" width="21.333333333333314" height="21.333333333333329"/>
                                 <state key="normal" backgroundImage="MenuClose"/>
                                 <connections>
                                     <action selector="Escape" destination="BYZ-38-t0r" eventType="touchUpInside" id="qCa-2a-0q9"/>
@@ -44,9 +36,9 @@
                             <constraint firstItem="Vos-xp-SwC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="OMG-5U-kpm"/>
                             <constraint firstItem="SS5-JA-rL1" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="PjD-Uf-pko"/>
                             <constraint firstItem="SS5-JA-rL1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="UUI-3O-76P"/>
-                            <constraint firstItem="6gy-eQ-QVd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="10" id="VxH-pg-8Ly"/>
+                            <constraint firstItem="6gy-eQ-QVd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="VxH-pg-8Ly"/>
                             <constraint firstItem="Vos-xp-SwC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cCG-h7-4DQ"/>
-                            <constraint firstItem="6gy-eQ-QVd" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" constant="-10" id="eDp-BC-BNK"/>
+                            <constraint firstItem="6gy-eQ-QVd" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="eDp-BC-BNK"/>
                             <constraint firstItem="SS5-JA-rL1" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="epB-Kf-SiP"/>
                             <constraint firstItem="Vos-xp-SwC" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="feA-PO-LN7"/>
                             <constraint firstItem="SS5-JA-rL1" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="tsh-5t-BeC"/>
@@ -62,7 +54,6 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130.40000000000001" y="118.22660098522168"/>
         </scene>
         <!--Root Controller-->
         <scene sceneID="Bih-hf-OIC">
@@ -77,10 +68,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gno-3w-nfT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="985" y="92"/>
         </scene>
     </scenes>
     <resources>
-        <image name="MenuClose" width="21.333333969116211" height="21.333333969116211"/>
+        <image name="MenuClose"/>
     </resources>
 </document>

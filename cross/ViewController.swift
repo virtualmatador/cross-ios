@@ -22,6 +22,7 @@ class ViewController: UIViewController
     {
         super.init(coder: aDecoder)
         (UIApplication.shared.delegate as! AppDelegate).view_controller_ = self
+        modalPresentationStyle = .fullScreen
     }
     
     func LoadWebView(_ sender: Int32, _ view_info: Int32, _ html: String)
