@@ -3,7 +3,7 @@
 //  cross
 //
 //  Created by Null on 7/19/19.
-//  Copyright © 2019 shaidin. All rights reserved.
+//  Copyright © 2020 shaidin. All rights reserved.
 //
 
 import WebKit
@@ -12,17 +12,19 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
 {
 
     var web_finish_: String = ""
+    var sender_: Int32 = 0
 
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
         self.configuration.userContentController.add(self, name: "Handler_")
-        self.configuration.preferences.javaScriptEnabled = true;
+        self.configuration.preferences.javaScriptEnabled = true
         navigationDelegate = self
     }
 
     func LoadView(_ sender: Int32, _ html: String)
     {
+        sender_ = sender
         web_finish_ =
             "var Handler = window.webkit.messageHandlers.Handler_;" +
             "var Handler_Receiver = \(sender);" +
@@ -48,6 +50,7 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
         if (!web_finish_.isEmpty)
         {
             webView.evaluateJavaScript(web_finish_)
+            BridgeHandleAsync(sender_, "body", "ready", "")
         }
     }
     
