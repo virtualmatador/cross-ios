@@ -14,8 +14,8 @@ extern "C"
 #endif
 
     typedef void (*FN_NEED_RESTART)(void* me);
-    typedef void (*FN_LOAD_WEB_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const char* html);
-    typedef void (*FN_LOAD_IMAGE_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const __int32_t image_width);
+    typedef void (*FN_LOAD_WEB_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const char* html, const char* waves);
+    typedef void (*FN_LOAD_IMAGE_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const __int32_t image_width, const char* waves);
     typedef void (*FN_REFRESH_IMAGE_VIEW)(void* me);
     typedef void (*FN_CALL_FUNCTION)(void* me, const char* function);
     typedef const char* (*FN_GET_ASSET)(void* me, const char* key);
@@ -24,9 +24,8 @@ extern "C"
     typedef void (*FN_POST_THREAD_MESSAGE)(void* me, const __int32_t sender, const char* id, const char* command, const char* info);
     typedef void (*FN_ADD_PARAM)(void* me, const char* key, const char* value);
     typedef void (*FN_POST_HTTP)(void* me, const __int32_t sender, const char* id, const char* command, const char* url);
+    typedef void (*FN_PLAY_AUDIO)(void* me, const __int32_t index);
     typedef void (*FN_EXIT)(void* me);
-    typedef void (*FN_GET_PIXELS)(void* me);
-    typedef void (*FN_RELEASE_PIXELS)(void* me);
 
     void SetImageData(__uint32_t* pixels);
     
@@ -42,6 +41,7 @@ extern "C"
                      FN_POST_THREAD_MESSAGE post_thread_message,
                      FN_ADD_PARAM add_param,
                      FN_POST_HTTP post_http,
+                     FN_PLAY_AUDIO play_audio,
                      FN_EXIT exit);
     void BridgeEnd();
     void BridgeCreate();

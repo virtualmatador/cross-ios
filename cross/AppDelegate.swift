@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var view_controller_: ViewController?
     var root_controller_: RootController?
     var http_params_:[(String, String)]? = []
+    var players_: [AVAudioPlayer?] = []
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -28,14 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
         },
             // LoadWebView
-            {(me, sender, view_info, html)->Void in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
-                vc.LoadWebView(sender, view_info, String(cString : html!))
+            {(me, sender, view_info, html, waves)->Void in
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
+                app.view_controller_!.LoadWebView(sender, view_info, String(cString : html!))
+                app.loadAudio(String(cString: waves!))
         },
             // LoadImageView
-            {(me, sender, view_info, image_width)->Void in
-                let vc = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue().view_controller_!
-                vc.LoadImageView(sender, view_info, image_width)
+            {(me, sender, view_info, image_width, waves)->Void in
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
+                app.view_controller_!.LoadImageView(sender, view_info, image_width)
+                app.loadAudio(String(cString: waves!))
         },
             // RefreshImageView
             {(me)->Void in
@@ -119,12 +123,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 task.resume()
                 app.http_params_?.removeAll()
         },
+            // PlayAudio
+            {(me, index) in
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
+                if (app.players_[Int(index)] != nil)
+                {
+                    app.players_[Int(index)]!.currentTime = 0	
+                    app.players_[Int(index)]!.play()
+                }
+        },
             // Exit
             {(me) in
                 UIApplication.shared.performSelector(onMainThread: #selector(NSXPCConnection.suspend), with: nil, waitUntilDone: false)
         });
 
         return true
+    }
+
+    func loadAudio(_ waves: String)
+    {
+        let wave_arr = waves.split{$0 == " "}.map(String.init)
+        players_.removeAll()
+        for wave in wave_arr
+        {
+            let url = Bundle.main.url(
+            forResource: wave,
+            withExtension: "wav",
+            subdirectory: "assets")!
+            let player = try? AVAudioPlayer(contentsOf: url) 
+            player?.prepareToPlay()
+            players_.append(player)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
