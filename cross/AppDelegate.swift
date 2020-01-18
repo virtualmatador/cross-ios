@@ -149,7 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let url = Bundle.main.url(
             forResource: wave,
             withExtension: "wav",
-            subdirectory: "assets")!
+            subdirectory: "assets/wave")!
             let player = try? AVAudioPlayer(contentsOf: url) 
             player?.prepareToPlay()
             players_.append(player)

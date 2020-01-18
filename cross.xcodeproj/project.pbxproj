@@ -13,17 +13,15 @@
 		2681B9EA22E08D2000942CFC /* stage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E022E08D2000942CFC /* stage.cpp */; };
 		2681B9EB22E08D2000942CFC /* runner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E322E08D2000942CFC /* runner.cpp */; };
 		2681B9ED22E08D2000942CFC /* interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2681B9E622E08D2000942CFC /* interface.cpp */; };
-		2681B9F122E08D5100942CFC /* html in Resources */ = {isa = PBXBuildFile; fileRef = 2681B9F022E08D5100942CFC /* html */; };
-		269BEE3822FB4E7800999C1B /* Prebuilt.sh in Resources */ = {isa = PBXBuildFile; fileRef = 2619F7D822E177A30090508F /* Prebuilt.sh */; };
 		269BEE3B22FB717700999C1B /* helper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 269BEE3922FB717700999C1B /* helper.cpp */; };
 		269E53CE22E71CB600C77FC7 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 269E53CD22E71CB500C77FC7 /* Config.xcconfig */; };
-		26BF644C22E242C100A4C03E /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 26BF644B22E242C100A4C03E /* assets */; };
 		26BF644E22E2509800A4C03E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BF644D22E2509800A4C03E /* WebView.swift */; };
 		26BF645022E251A900A4C03E /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BF644F22E251A900A4C03E /* ImageView.swift */; };
 		26E75A2922E08C2C00D53C4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E75A2822E08C2C00D53C4B /* AppDelegate.swift */; };
 		26E75A2B22E08C2C00D53C4B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E75A2A22E08C2C00D53C4B /* ViewController.swift */; };
 		26E75A2E22E08C2C00D53C4B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26E75A2C22E08C2C00D53C4B /* Main.storyboard */; };
 		26E75A3022E08C2D00D53C4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26E75A2F22E08C2D00D53C4B /* Assets.xcassets */; };
+		4144C78823D2BAC500738686 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 4144C78723D2BAC500738686 /* assets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,21 +31,18 @@
 		2619F7DD22E18A6C0090508F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2619F7DF22E18E590090508F /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../src; sourceTree = "<group>"; };
 		261E538822ED583D0071BE95 /* RootController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
-		263DDC0F22EAB5E90072E789 /* template-info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "template-info.plist"; sourceTree = "<group>"; };
 		2681B9E022E08D2000942CFC /* stage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stage.cpp; path = src/stage.cpp; sourceTree = "<group>"; };
 		2681B9E322E08D2000942CFC /* runner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = runner.cpp; path = src/runner.cpp; sourceTree = "<group>"; };
 		2681B9E522E08D2000942CFC /* interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = interface.h; path = src/interface.h; sourceTree = "<group>"; };
 		2681B9E622E08D2000942CFC /* interface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = interface.cpp; path = src/interface.cpp; sourceTree = "<group>"; };
 		2681B9E722E08D2000942CFC /* stage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stage.h; path = src/stage.h; sourceTree = "<group>"; };
 		2681B9E822E08D2000942CFC /* runner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = runner.h; path = src/runner.h; sourceTree = "<group>"; };
-		2681B9F022E08D5100942CFC /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; name = html; path = ../../html; sourceTree = "<group>"; };
 		269BEE3922FB717700999C1B /* helper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = helper.cpp; path = src/helper.cpp; sourceTree = "<group>"; };
 		269BEE3A22FB717700999C1B /* helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = helper.h; path = src/helper.h; sourceTree = "<group>"; };
 		269E53C822E71C4400C77FC7 /* bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bridge.h; path = src/bridge.h; sourceTree = "<group>"; };
 		269E53C922E71C4400C77FC7 /* define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = define.h; path = src/define.h; sourceTree = "<group>"; };
 		269E53CA22E71C4400C77FC7 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = src/main.h; sourceTree = "<group>"; };
 		269E53CD22E71CB500C77FC7 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		26BF644B22E242C100A4C03E /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../res/assets; sourceTree = "<group>"; };
 		26BF644D22E2509800A4C03E /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		26BF644F22E251A900A4C03E /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		26E75A2522E08C2C00D53C4B /* cross.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cross.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +50,8 @@
 		26E75A2A22E08C2C00D53C4B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		26E75A2D22E08C2C00D53C4B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		26E75A2F22E08C2D00D53C4B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4144C78723D2BAC500738686 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../assets; sourceTree = "<group>"; };
+		4144C78923D2BD7400738686 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,9 +87,8 @@
 		26E75A1C22E08C2C00D53C4B = {
 			isa = PBXGroup;
 			children = (
+				4144C78723D2BAC500738686 /* assets */,
 				2619F7DF22E18E590090508F /* src */,
-				2681B9F022E08D5100942CFC /* html */,
-				26BF644B22E242C100A4C03E /* assets */,
 				2681B9DF22E08D2000942CFC /* core */,
 				26E75A2722E08C2C00D53C4B /* cross */,
 				26E75A2622E08C2C00D53C4B /* Products */,
@@ -110,6 +106,7 @@
 		26E75A2722E08C2C00D53C4B /* cross */ = {
 			isa = PBXGroup;
 			children = (
+				4144C78923D2BD7400738686 /* Info.plist */,
 				2619F7DD22E18A6C0090508F /* main.cpp */,
 				2619F7B822E1137E0090508F /* BridgeCore.cpp */,
 				2619F7B722E1137E0090508F /* BridgeCore.h */,
@@ -120,7 +117,6 @@
 				26BF644F22E251A900A4C03E /* ImageView.swift */,
 				26E75A2C22E08C2C00D53C4B /* Main.storyboard */,
 				26E75A2F22E08C2D00D53C4B /* Assets.xcassets */,
-				263DDC0F22EAB5E90072E789 /* template-info.plist */,
 				2619F7D822E177A30090508F /* Prebuilt.sh */,
 				269E53CD22E71CB500C77FC7 /* Config.xcconfig */,
 			);
@@ -134,7 +130,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26E75A3722E08C2D00D53C4B /* Build configuration list for PBXNativeTarget "cross" */;
 			buildPhases = (
-				2619F7BA22E114DF0090508F /* ShellScript */,
+				2619F7BA22E114DF0090508F /* Run Script */,
 				26E75A2122E08C2C00D53C4B /* Sources */,
 				26E75A2222E08C2C00D53C4B /* Frameworks */,
 				26E75A2322E08C2C00D53C4B /* Resources */,
@@ -186,19 +182,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26BF644C22E242C100A4C03E /* assets in Resources */,
-				269BEE3822FB4E7800999C1B /* Prebuilt.sh in Resources */,
 				26E75A3022E08C2D00D53C4B /* Assets.xcassets in Resources */,
+				4144C78823D2BAC500738686 /* assets in Resources */,
 				26E75A2E22E08C2C00D53C4B /* Main.storyboard in Resources */,
 				269E53CE22E71CB600C77FC7 /* Config.xcconfig in Resources */,
-				2681B9F122E08D5100942CFC /* html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2619F7BA22E114DF0090508F /* ShellScript */ = {
+		2619F7BA22E114DF0090508F /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -207,10 +201,21 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				cross/main.cpp,
+				cross/Info.plist,
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-20@2.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-20@3.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-29@2.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-29@3.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-40@2.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-40@3.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-60@2.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-60@3.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-1024@1.png",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh cross/Prebuilt.sh";
