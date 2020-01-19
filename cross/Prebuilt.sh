@@ -6,15 +6,6 @@
 #  Created by Null on 7/18/19.
 #  Copyright © 2019 shaidin. All rights reserved.
 
-echo "info.plist generating ..."
-IFS=. idn=(${cross_identifier})
-cp -f "cross/template-info.plist" "cross/Info.plist"
-/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier '${cross_identifier}'" "cross/info.plist"
-/usr/libexec/PlistBuddy -c "Set :CFBundleName '$(tr '[:lower:]' '[:upper:]' <<< ${idn[2]:0:1})${idn[2]:1}'" "cross/info.plist"
-/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString '${cross_version}'" "cross/info.plist"
-/usr/libexec/PlistBuddy -c "Set :CFBundleVersion '${cross_release_number}'" "cross/info.plist"
-echo "info.plist generated."
-
 echo "main.cpp generating ..."
 main_cpp="// Auto generated file\n"
 for source in ../../src/*.cpp

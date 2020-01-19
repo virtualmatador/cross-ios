@@ -206,7 +206,6 @@
 			);
 			outputPaths = (
 				cross/main.cpp,
-				cross/Info.plist,
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-20@2.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-20@3.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-29@2.png",
@@ -385,8 +384,8 @@
 				DEVELOPMENT_TEAM = QH3KDF7L87;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/cross/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.shaidin.$(TARGET_NAME)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(cross_identifier)";
+				PRODUCT_NAME = "$(cross_target)";
 				SWIFT_OBJC_BRIDGING_HEADER = cross/BridgeCore.h;
 				SWIFT_VERSION = 5.0;
 			};
@@ -401,8 +400,8 @@
 				DEVELOPMENT_TEAM = QH3KDF7L87;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/cross/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.shaidin.$(TARGET_NAME)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(cross_identifier)";
+				PRODUCT_NAME = "$(cross_target)";
 				SWIFT_OBJC_BRIDGING_HEADER = cross/BridgeCore.h;
 				SWIFT_VERSION = 5.0;
 			};
