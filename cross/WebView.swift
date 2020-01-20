@@ -85,7 +85,7 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void)
     {
-        if (navigationAction.navigationType != .linkActivated)
+        if (navigationAction.navigationType != .linkActivated || navigationAction.sourceFrame.webView?.url?.path == navigationAction.request.url?.path)
         {
             decisionHandler(.allow)
         }

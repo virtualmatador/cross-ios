@@ -52,9 +52,9 @@ class ViewController: UIViewController
         sender_ = sender
         UIApplication.shared.isIdleTimerDisabled = (view_info & 4) != 0
         let root_controller = presentingViewController as! RootController
-        root_controller.view_info_ = view_info
         root_controller.dismiss(animated: false)
         {
+            root_controller.view_info_ = view_info
             root_controller.present(self, animated: false)
             {
                 self.close_button_.isHidden = (view_info & 8) == 0
