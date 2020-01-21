@@ -55,9 +55,9 @@ class ViewController: UIViewController
         root_controller.dismiss(animated: false)
         {
             root_controller.view_info_ = view_info
+            self.close_button_.isHidden = (root_controller.view_info_ & 8) == 0
             root_controller.present(self, animated: false)
             {
-                self.close_button_.isHidden = (view_info & 8) == 0
                 update()
             }
         }
