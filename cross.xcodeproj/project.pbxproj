@@ -206,14 +206,20 @@
 			);
 			outputPaths = (
 				cross/main.cpp,
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-20@1.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-20@2.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-20@3.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-29@1.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-29@2.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-29@3.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-40@1.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-40@2.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-40@3.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-60@2.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-60@3.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-76@1.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-76@2.png",
+				"cross/Assets.xcassets/AppIcon.appiconset/icon-83.5@2.png",
 				"cross/Assets.xcassets/AppIcon.appiconset/icon-1024@1.png",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,6 +394,7 @@
 				PRODUCT_NAME = "$(cross_target)";
 				SWIFT_OBJC_BRIDGING_HEADER = cross/BridgeCore.h;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -404,6 +411,7 @@
 				PRODUCT_NAME = "$(cross_target)";
 				SWIFT_OBJC_BRIDGING_HEADER = cross/BridgeCore.h;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
