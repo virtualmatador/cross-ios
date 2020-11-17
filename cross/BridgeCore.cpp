@@ -25,19 +25,19 @@ FN_ADD_PARAM add_param_;
 FN_POST_HTTP post_http_;
 FN_PLAY_AUDIO play_audio_;
 FN_EXIT exit_;
-__uint32_t* pixels_;
+std::uint32_t* pixels_;
 
 void bridge::NeedRestart()
 {
     need_restart_(me_);
 }
 
-void bridge::LoadWebView(const __int32_t sender, const __int32_t view_info, const char* html, const char* waves)
+void bridge::LoadWebView(const std::int32_t sender, const std::int32_t view_info, const char* html, const char* waves)
 {
     load_web_view_(me_, sender, view_info, html, waves);
 }
 
-void bridge::LoadImageView(const __int32_t sender, const __int32_t view_info, const __int32_t image_width, const char* waves)
+void bridge::LoadImageView(const std::int32_t sender, const std::int32_t view_info, const std::int32_t image_width, const char* waves)
 {
     load_image_view_(me_, sender, view_info, image_width, waves);
 }
@@ -47,12 +47,12 @@ void bridge::RefreshImageView()
     refresh_image_view_(me_);
 }
 
-__uint32_t* bridge::GetPixels()
+std::uint32_t* bridge::GetPixels()
 {
     return pixels_;
 }
 
-void bridge::ReleasePixels(__uint32_t *pixels)
+void bridge::ReleasePixels(std::uint32_t *pixels)
 {
 }
 
@@ -76,7 +76,7 @@ void bridge::SetPreference(const char* key, const char* value)
     set_preference_(me_, key, value);
 }
 
-void bridge::PostThreadMessage(__int32_t sender, const char* id, const char* command, const char* info)
+void bridge::PostThreadMessage(std::int32_t sender, const char* id, const char* command, const char* info)
 {
     post_thread_message_(me_, sender, id, command, info);
 }
@@ -86,12 +86,12 @@ void bridge::AddParam(const char* key, const char* value)
     add_param_(me_, key, value);
 }
 
-void bridge::PostHttp(__int32_t sender,  const char* id, const char* command, const char* url)
+void bridge::PostHttp(std::int32_t sender,  const char* id, const char* command, const char* url)
 {
     post_http_(me_, sender, id, command, url);
 }
 
-void bridge::PlayAudio(const __int32_t index)
+void bridge::PlayAudio(const std::int32_t index)
 {
     play_audio_(me_, index);
 }
@@ -101,7 +101,7 @@ void bridge::Exit()
     exit_(me_);
 }
 
-void SetImageData(__uint32_t* pixels)
+void SetImageData(std::uint32_t* pixels)
 {
     pixels_ = pixels;
 }
@@ -178,7 +178,7 @@ void BridgeHandle(const char* id, const char* command, const char* info)
     interface::Handle(id, command, info);
 }
 
-void BridgeHandleAsync(__int32_t sender, const char* id, const char* command, const char* info)
+void BridgeHandleAsync(std::int32_t sender, const char* id, const char* command, const char* info)
 {
     interface::HandleAsync(sender, id, command, info);
 }

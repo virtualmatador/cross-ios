@@ -71,7 +71,7 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
             DispatchQueue.main.async
             {
                 BridgeHandleAsync(
-                    message_dictionary["Receiver"] as! __int32_t,
+                    message_dictionary["Receiver"] as! Int32,
                     message_dictionary["id"] as? String,
                     message_dictionary["command"] as? String,
                     message_dictionary["info"] as? String)
