@@ -14,20 +14,20 @@ extern "C"
 #endif
 
     typedef void (*FN_NEED_RESTART)(void* me);
-    typedef void (*FN_LOAD_WEB_VIEW)(void* me, const std::int32_t sender, const std::int32_t view_info, const char* html, const char* waves);
-    typedef void (*FN_LOAD_IMAGE_VIEW)(void* me, const std::int32_t sender, const std::int32_t view_info, const std::int32_t image_width, const char* waves);
+    typedef void (*FN_LOAD_WEB_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const char* html, const char* waves);
+    typedef void (*FN_LOAD_IMAGE_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const __int32_t image_width, const char* waves);
     typedef void (*FN_REFRESH_IMAGE_VIEW)(void* me);
     typedef void (*FN_CALL_FUNCTION)(void* me, const char* function);
     typedef const char* (*FN_GET_ASSET)(void* me, const char* key);
     typedef const char* (*FN_GET_PREFERENCE)(void* me, const char* key);
     typedef void (*FN_SET_PREFERENCE)(void* me, const char* key, const char* value);
-    typedef void (*FN_POST_THREAD_MESSAGE)(void* me, const std::int32_t sender, const char* id, const char* command, const char* info);
+    typedef void (*FN_POST_THREAD_MESSAGE)(void* me, const __int32_t sender, const char* id, const char* command, const char* info);
     typedef void (*FN_ADD_PARAM)(void* me, const char* key, const char* value);
-    typedef void (*FN_POST_HTTP)(void* me, const std::int32_t sender, const char* id, const char* command, const char* url);
-    typedef void (*FN_PLAY_AUDIO)(void* me, const std::int32_t index);
+    typedef void (*FN_POST_HTTP)(void* me, const __int32_t sender, const char* id, const char* command, const char* url);
+    typedef void (*FN_PLAY_AUDIO)(void* me, const __int32_t index);
     typedef void (*FN_EXIT)(void* me);
 
-    void SetImageData(std::uint32_t* pixels);
+    void SetImageData(__uint32_t* pixels);
     
     void BridgeBegin(void* me,
                      FN_NEED_RESTART on_restart,
@@ -51,7 +51,7 @@ extern "C"
     void BridgeRestart();
     void BridgeEscape();
     void BridgeHandle(const char* id, const char* command, const char* info);
-    void BridgeHandleAsync(std::int32_t sender, const char* id, const char* command, const char* info);
+    void BridgeHandleAsync(__int32_t sender, const char* id, const char* command, const char* info);
 
 #ifdef __cplusplus
 }

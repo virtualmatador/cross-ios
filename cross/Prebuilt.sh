@@ -23,18 +23,18 @@ then
 fi
 echo "main.cpp generated."
 
-sips --resampleWidth 20 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-20@1.png
-sips --resampleWidth 40 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-20@2.png
-sips --resampleWidth 60 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-20@3.png
-sips --resampleWidth 29 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-29@1.png
-sips --resampleWidth 58 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-29@2.png
-sips --resampleWidth 87 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-29@3.png
-sips --resampleWidth 40 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-40@1.png
-sips --resampleWidth 80 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-40@2.png
-sips --resampleWidth 120 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-40@3.png
-sips --resampleWidth 120 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-60@2.png
-sips --resampleWidth 180 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-60@3.png
-sips --resampleWidth 76 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-76@1.png
-sips --resampleWidth 152 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-76@2.png
-sips --resampleWidth 167 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-83.5@2.png
-sips --resampleWidth 1024 ../../assets/icon.png --out cross/Assets.xcassets/AppIcon.appiconset/icon-1024@1.png
+qlmanage -t -s 20 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-20@1.png
+qlmanage -t -s 40 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-20@2.png
+qlmanage -t -s 60 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-20@3.png
+qlmanage -t -s 29 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-29@1.png
+qlmanage -t -s 58 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-29@2.png
+qlmanage -t -s 87 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-29@3.png
+qlmanage -t -s 40 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-40@1.png
+qlmanage -t -s 80 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-40@2.png
+qlmanage -t -s 120 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-40@3.png
+qlmanage -t -s 120 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-60@2.png
+qlmanage -t -s 180 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-60@3.png
+qlmanage -t -s 76 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-76@1.png
+qlmanage -t -s 152 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-76@2.png
+qlmanage -t -s 167 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-83.5@2.png
+qlmanage -t -s 1024 -o cross/Assets.xcassets/AppIcon.appiconset/ ../../icon.svg && mv cross/Assets.xcassets/AppIcon.appiconset/icon.svg.png cross/Assets.xcassets/AppIcon.appiconset/icon-1024@1.png
