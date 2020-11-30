@@ -42,7 +42,7 @@
 		269E53C822E71C4400C77FC7 /* bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bridge.h; path = src/bridge.h; sourceTree = "<group>"; };
 		269E53C922E71C4400C77FC7 /* define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = define.h; path = src/define.h; sourceTree = "<group>"; };
 		269E53CA22E71C4400C77FC7 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = src/main.h; sourceTree = "<group>"; };
-		269E53CD22E71CB500C77FC7 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		269E53CD22E71CB500C77FC7 /* manifest.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ../../manifest.txt; sourceTree = "<group>"; };
 		26BF644D22E2509800A4C03E /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		26BF644F22E251A900A4C03E /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		26E75A2522E08C2C00D53C4B /* cross.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cross.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,7 +118,6 @@
 				26E75A2C22E08C2C00D53C4B /* Main.storyboard */,
 				26E75A2F22E08C2D00D53C4B /* Assets.xcassets */,
 				2619F7D822E177A30090508F /* Prebuilt.sh */,
-				269E53CD22E71CB500C77FC7 /* Config.xcconfig */,
 			);
 			path = cross;
 			sourceTree = "<group>";
@@ -185,7 +184,6 @@
 				26E75A3022E08C2D00D53C4B /* Assets.xcassets in Resources */,
 				4144C78823D2BAC500738686 /* assets in Resources */,
 				26E75A2E22E08C2C00D53C4B /* Main.storyboard in Resources */,
-				269E53CE22E71CB600C77FC7 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +265,7 @@
 /* Begin XCBuildConfiguration section */
 		26E75A3522E08C2D00D53C4B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 269E53CD22E71CB500C77FC7 /* Config.xcconfig */;
+			baseConfigurationReference = 269E53CD22E71CB500C77FC7 /* manifest.txt */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -330,7 +328,7 @@
 		};
 		26E75A3622E08C2D00D53C4B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 269E53CD22E71CB500C77FC7 /* Config.xcconfig */;
+			baseConfigurationReference = 269E53CD22E71CB500C77FC7 /* manifest.txt */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
