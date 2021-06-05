@@ -14,11 +14,9 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
     var web_finish_: String = ""
     var sender_: Int32 = 0
 
-    required init?(coder aDecoder: NSCoder)
+    func setup()
     {
-        super.init(coder: aDecoder)
-        self.configuration.userContentController.add(self, name: "Handler_")
-        self.configuration.preferences.javaScriptEnabled = true
+        configuration.userContentController.add(self, name: "Handler_")
         navigationDelegate = self
     }
 
@@ -27,7 +25,7 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
         sender_ = sender
         web_finish_ =
             "var Handler = window.webkit.messageHandlers.Handler_;" +
-            "var Handler_Receiver = \(sender);" +
+            "var Handler_Receiver = \(sender_);" +
             "function CallHandler(id, command, info)" +
             "{" +
                 "Handler.postMessage(JSON.stringify(" +
@@ -40,11 +38,12 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
         loadFileURL(url, allowingReadAccessTo: url)
     }
     
-    func CallFunction(_ function: String)
+    func Clear()
     {
-        evaluateJavaScript(function)
+        web_finish_ = ""
+        load(URLRequest(url: URL(string:"about:blank")!))
     }
-    
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
     {
         if (!web_finish_.isEmpty)
@@ -52,12 +51,6 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
             webView.evaluateJavaScript(web_finish_)
             BridgeHandleAsync(sender_, "body", "ready", "")
         }
-    }
-    
-    func Clear()
-    {
-        web_finish_ = ""
-        load(URLRequest(url: URL(string:"about:blank")!))
     }
     
     func userContentController(_ userContentController: WKUserContentController,

@@ -14,13 +14,15 @@ class ImageView : UIImageView
     var width_: Int32 = 0
     var height_: Int32 = 0
     var dpi_: CGFloat = 0
-    
+
+    /*
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
         dpi_ = GetDpi()
     }
-    
+    */
+
     func LoadView(_ sender: Int32, _ image_width: Int32)
     {
         DispatchQueue.main.async
