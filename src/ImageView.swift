@@ -14,17 +14,16 @@ class ImageView : UIImageView
     var width_: Int32 = 0
     var height_: Int32 = 0
     var dpi_: CGFloat = 0
+    var location_: CGPoint = CGPoint(x: 0.0, y: 0.0)
 
-    /*
-    required init?(coder aDecoder: NSCoder)
+    deinit
     {
-        super.init(coder: aDecoder)
-        dpi_ = GetDpi()
+        Clear()
     }
-    */
-
+    
     func LoadView(_ sender: Int32, _ image_width: Int32)
     {
+        dpi_ = GetDpi()
         DispatchQueue.main.async
         {() in
             self.width_ = image_width;
@@ -56,22 +55,23 @@ class ImageView : UIImageView
                       bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!.makeImage()!)
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    func touch_moved(_ location: CGPoint)
     {
-        let pos = touches.first?.location(in: self)
-        BridgeHandle("body", "touch-begin", "\(pos!.x) \(pos!.y)")
+        if (location_.x == 0 && location_.y == 0)
+        {
+            BridgeHandle("body", "touch-begin", "\(location.x) \(location.y)")
+        }
+        else
+        {
+            BridgeHandle("body", "touch-move", "\(location.x) \(location.y)")
+        }
+        location_ = location
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
+    func touch_ended()
     {
-        let pos = touches.first?.location(in: self)
-        BridgeHandle("body", "touch-move", "\(pos!.x) \(pos!.y)")
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
-        let pos = touches.first?.location(in: self)
-        BridgeHandle("body", "touch-end", "\(pos!.x) \(pos!.y)")
+        BridgeHandle("body", "touch-end", "\(location_.x) \(location_.y)")
+        location_ = .zero
     }
     
     func GetDpi()->CGFloat

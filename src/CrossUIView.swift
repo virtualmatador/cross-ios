@@ -13,8 +13,13 @@ class UIState: ObservableObject
     @Published var showWeb_: Bool = false
     @Published var showImage_: Bool = false
     @Published var showButton_: Bool = false
-    @Published var html_: String = ""
+
     weak var web_view_: WebView! = nil
+    var html_: String = ""
+
+    weak var image_view_: ImageView! = nil
+    var image_width_: Int32 = 0
+
     var sender_: Int32 = 0
     var view_info_: Int32 = 0
 }
@@ -25,8 +30,8 @@ struct WebViewWrapper : UIViewRepresentable
 
     func updateUIView(_ uiView: WebView, context: Context)
     {
-            uiView.LoadView(the_state_.sender_, the_state_.html_)
-        }
+        uiView.LoadView(the_state_.sender_, the_state_.html_)
+    }
     func makeUIView(context: Context) -> WebView
     {
         let wv = WebView()
@@ -42,10 +47,12 @@ struct ImageViewWrapper : UIViewRepresentable
 
     func updateUIView(_ uiView: ImageView, context: Context)
     {
+        uiView.LoadView(the_state_.sender_, the_state_.image_width_)
     }
     func makeUIView(context: Context) -> ImageView
     {
         let iv = ImageView()
+        the_state_.image_view_ = iv
         return iv
     }
 }
@@ -77,13 +84,14 @@ struct CrossUIView: View
     {
         the_state_.showWeb_ = false
         ActivateView(view_info)
+        the_state_.sender_ = sender
+        the_state_.image_width_ = image_width
         the_state_.showImage_ = true
-        //image_view_.iv_.LoadView(sender, image_width)
      }
     
     func ImageRefresh()
     {
-        
+        the_state_.image_view_.Refresh()
     }
     
     func ActivateView(_ view_info: Int32)
@@ -125,6 +133,15 @@ struct CrossUIView: View
             if (the_state_.showImage_)
             {
                 ImageViewWrapper(the_state_: the_state_)
+                    .gesture(
+                            DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                                .onChanged { value in
+                                    the_state_.image_view_.touch_moved(value.location)
+                                }
+                                .onEnded { _ in
+                                    the_state_.image_view_.touch_ended()
+                                }
+                        )
             }
             if (the_state_.showButton_)
             {
