@@ -14,7 +14,7 @@ class UIState: ObservableObject
     @Published var showImage_: Bool = false
     @Published var showButton_: Bool = false
     @Published var html_: String = ""
-    var web_view_: WebView! = nil
+    weak var web_view_: WebView! = nil
     var sender_: Int32 = 0
     var view_info_: Int32 = 0
 }
@@ -25,15 +25,8 @@ struct WebViewWrapper : UIViewRepresentable
 
     func updateUIView(_ uiView: WebView, context: Context)
     {
-        if (!the_state_.html_.isEmpty)
-        {
             uiView.LoadView(the_state_.sender_, the_state_.html_)
         }
-        else
-        {
-            uiView.Clear()
-        }
-    }
     func makeUIView(context: Context) -> WebView
     {
         let wv = WebView()
@@ -64,15 +57,7 @@ struct CrossUIView: View
     @State var oldScenePhase: ScenePhase = ScenePhase.active
     @Environment(\.scenePhase) private var scenePhase
 
-    /*
-    //RootController
-    func UnloadController(_ callback: @escaping ()->Void)
-    {
-        callback();
-        child_controller_.web_view_.Clear()
-        child_controller_.image_view_.Clear()
-    }
-    */
+    weak var appDelegate: AppDelegate!
 
     func LoadWebView(_ sender: Int32, _ view_info: Int32, _ html: String)
     {
@@ -104,6 +89,27 @@ struct CrossUIView: View
     func ActivateView(_ view_info: Int32)
     {
         UIApplication.shared.isIdleTimerDisabled = (view_info & 4) != 0
+        if ((view_info & 1) != 0)
+        {
+            appDelegate.orientationLock = UIInterfaceOrientationMask.portrait
+            if (UIDevice.current.orientation.rawValue != UIInterfaceOrientation.portraitUpsideDown.rawValue)
+            {
+                UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            }
+        }
+        else if ((view_info & 2) != 0)
+        {
+            appDelegate.orientationLock = UIInterfaceOrientationMask.landscape
+            if (UIDevice.current.orientation.rawValue != UIInterfaceOrientation.landscapeRight.rawValue)
+            {
+                UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
+            }
+        }
+        else
+        {
+            appDelegate.orientationLock = UIInterfaceOrientationMask.all
+        }
+        UINavigationController.attemptRotationToDeviceOrientation()
         the_state_.view_info_ = view_info
         the_state_.showButton_ = (the_state_.view_info_ & 8) != 0
     }

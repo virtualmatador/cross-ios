@@ -37,12 +37,6 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
             subdirectory: "assets/html")!
         loadFileURL(url, allowingReadAccessTo: url)
     }
-    
-    func Clear()
-    {
-        web_finish_ = ""
-        load(URLRequest(url: URL(string:"about:blank")!))
-    }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
     {

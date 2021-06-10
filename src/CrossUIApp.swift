@@ -11,6 +11,7 @@ import AVFoundation
 @main
 class CrossUIApp: App
 {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var the_view_: CrossUIView!
     var temp_buffer_: String?
     var http_params_:[(String, String)]? = []
@@ -18,7 +19,7 @@ class CrossUIApp: App
 
     required init()
     {
-        the_view_ = CrossUIView()
+        the_view_ = CrossUIView(appDelegate: appDelegate)
         BridgeBegin(UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
              // NeedRestart
             {(me)->Void in
@@ -166,5 +167,15 @@ class CrossUIApp: App
         {
             the_view_
         }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate
+{
+    var orientationLock = UIInterfaceOrientationMask.all
+
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask
+    {
+        return orientationLock
     }
 }
