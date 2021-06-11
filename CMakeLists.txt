@@ -1,14 +1,13 @@
 cmake_minimum_required(VERSION 3.20)
 
 include("${CMAKE_CURRENT_SOURCE_DIR}/../core/manifest.cmake")
-string(TOLOWER ${cross_target} project_name)
 
 set(CMAKE_Swift_LANGUAGE_VERSION 5.4)
 set(CMAKE_SYSTEM_NAME iOS)
 set(CMAKE_SYSTEM_VERSION 14.5)
-set(CMAKE_MACOSX_BUNDLE On)
+set(CMAKE_MACOSX_BUNDLE ON)
 
-project(${project_name} LANGUAGES Swift CXX VERSION ${cross_version})
+project(${cross_target} LANGUAGES Swift CXX VERSION ${cross_version})
 
 add_executable(${CMAKE_PROJECT_NAME}
     src/CrossUIApp.swift
@@ -18,18 +17,24 @@ add_executable(${CMAKE_PROJECT_NAME}
 )
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
     XCODE_ATTRIBUTE_SWIFT_OBJC_BRIDGING_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/BridgeCore.h"
-    XCODE_ATTRIBUTE_DEVELOPMENT_TEAM ${CROSS_APPLE_TEAM_ID}
-    XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
+    XCODE_ATTRIBUTE_DEVELOPMENT_TEAM ${CROSS_TEAM_ID}
+    XCODE_ATTRIBUTE_ENABLE_BITCODE OFF
     XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER ${cross_identifier}
     XCODE_ATTRIBUTE_ASSETCATALOG_COMPILER_APPICON_NAME "AppIcon"
     XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2"
     XCODE_ATTRIBUTE_CURRENT_PROJECT_VERSION ${CMAKE_PROJECT_VERSION_PATCH}
     XCODE_ATTRIBUTE_MARKETING_VERSION ${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/info.plist"
+    XCODE_ATTRIBUTE_INSTALL_PATH "$(LOCAL_APPS_DIR)"
+    XCODE_ATTRIBUTE_SKIP_INSTALL OFF
 )
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/Assets.xcassets")
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/Assets.xcassets" PROPERTIES
     GENERATED true
+    MACOSX_PACKAGE_LOCATION Resources
+)
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../../assets")
+set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/../../assets" PROPERTIES
     MACOSX_PACKAGE_LOCATION Resources
 )
 
@@ -40,7 +45,10 @@ add_library(bridge
     ${app_files}
     ${core_files}
 )
-set_target_properties(bridge PROPERTIES CXX_STANDARD 17)
+set_target_properties(bridge PROPERTIES
+    CXX_STANDARD 17
+    XCODE_ATTRIBUTE_SKIP_INSTALL ON
+)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
     "-framework UIKit"
@@ -86,4 +94,24 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME} PRE_BUILD
     COMMAND security unlock-keychain -p \$\(<~/password.txt\) login.keychain-db
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../../assets" "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/assets"
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Assets.xcassets" "${CMAKE_CURRENT_BINARY_DIR}/Assets.xcassets"
+)
+
+add_custom_target("ipa" ALL
+    COMMAND xcodebuild -project "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcodeproj" -scheme "${CMAKE_PROJECT_NAME}" -configuration Release -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive" -destination 'generic/platform=iOS' archive
+    COMMAND xcodebuild -exportArchive -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive" -exportPath "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp" -exportOptionsPlist "${CMAKE_CURRENT_SOURCE_DIR}/ipa.plist" -allowProvisioningUpdates
+
+    COMMAND echo '<?xml version="1.0" encoding="UTF-8"?>' > "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '<package xmlns="http://apple.com/itunes/importer" version="software5.4">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '  <software_assets apple_id="${CROSS_PROJECT_APPLE_ID}" app_platform="ios">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '    <asset type="bundle">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '      <data_file>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '        <size>'\$\( stat -f %z "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/${CMAKE_PROJECT_NAME}.ipa" \)'</size>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '        <file_name>${CMAKE_PROJECT_NAME}.ipa</file_name>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '        <checksum type="md5">'\$\( md5 -q "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/${CMAKE_PROJECT_NAME}.ipa" \)'</checksum>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '      </data_file>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '    </asset>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '  </software_assets>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND echo '</package>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+
+    COMMAND echo "${CROSS_DEVELOPER_APPLE_ID}" > "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/apple-id"
 )
