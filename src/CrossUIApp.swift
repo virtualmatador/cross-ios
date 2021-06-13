@@ -165,7 +165,7 @@ class CrossUIApp: App
     {
         WindowGroup
         {
-            the_view_
+            the_view_.ignoresSafeArea()
         }
     }
 }
