@@ -100,18 +100,18 @@ add_custom_target("ipa" ALL
     COMMAND xcodebuild -project "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcodeproj" -scheme "${CMAKE_PROJECT_NAME}" -configuration Release -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive" -destination 'generic/platform=iOS' archive
     COMMAND xcodebuild -exportArchive -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive" -exportPath "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp" -exportOptionsPlist "${CMAKE_CURRENT_SOURCE_DIR}/ipa.plist" -allowProvisioningUpdates
 
-    COMMAND echo '<?xml version="1.0" encoding="UTF-8"?>' > "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '<package xmlns="http://apple.com/itunes/importer" version="software5.4">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '  <software_assets apple_id="${CROSS_PROJECT_APPLE_ID}" app_platform="ios">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '    <asset type="bundle">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '      <data_file>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '        <size>'\$\( stat -f %z "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/${CMAKE_PROJECT_NAME}.ipa" \)'</size>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '        <file_name>${CMAKE_PROJECT_NAME}.ipa</file_name>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '        <checksum type="md5">'\$\( md5 -q "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/${CMAKE_PROJECT_NAME}.ipa" \)'</checksum>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '      </data_file>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '    </asset>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '  </software_assets>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND echo '</package>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '<?xml version="1.0" encoding="UTF-8"?>' > "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '<package xmlns="http://apple.com/itunes/importer" version="software5.4">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '  <software_assets apple_id="${CROSS_PROJECT_APPLE_ID}" app_platform="ios">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '    <asset type="bundle">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '      <data_file>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '        <size>'\$\( stat -f %z "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/${CMAKE_PROJECT_NAME}.ipa" \)'</size>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '        <file_name>${CMAKE_PROJECT_NAME}.ipa</file_name>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '        <checksum type="md5">'\$\( md5 -q "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/${CMAKE_PROJECT_NAME}.ipa" \)'</checksum>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '      </data_file>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '    </asset>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '  </software_assets>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
+    COMMAND ${CMAKE_COMMAND} -E echo '</package>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
 
-    COMMAND echo "${CROSS_DEVELOPER_APPLE_ID}" > "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/apple-id"
+    COMMAND ${CMAKE_COMMAND} -E echo "${CROSS_DEVELOPER_APPLE_ID}" > "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/apple-id"
 )
