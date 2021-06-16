@@ -120,6 +120,22 @@ struct CrossUIView: View
         UINavigationController.attemptRotationToDeviceOrientation()
         the_state_.view_info_ = view_info
         the_state_.showButton_ = (the_state_.view_info_ & 8) != 0
+        do
+        {
+            if ((view_info & 16) != 0)
+            {
+                try AVAudioSession.sharedInstance().setCategory(
+                    AVAudioSession.Category.ambient)
+            }
+            else
+            {
+                try AVAudioSession.sharedInstance().setCategory(
+                    AVAudioSession.Category.soloAmbient)                
+            }
+        }
+        catch
+        {
+        }
     }
      
     var body: some View
