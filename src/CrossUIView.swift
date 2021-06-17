@@ -61,7 +61,7 @@ struct CrossUIView: View
 {
     @ObservedObject var the_state_: UIState = UIState()
 
-    @State var oldScenePhase: ScenePhase = ScenePhase.active
+    @State var oldScenePhase: ScenePhase = ScenePhase.background
     @Environment(\.scenePhase) private var scenePhase
 
     weak var appDelegate: AppDelegate!
@@ -177,6 +177,11 @@ struct CrossUIView: View
             switch newScenePhase
             {
               case .active:
+                if (oldScenePhase == .background)
+                {
+                    BridgeCreate()
+                    oldScenePhase = .inactive
+                }
                 if (oldScenePhase == .inactive)
                 {
                     BridgeStart()
@@ -191,6 +196,11 @@ struct CrossUIView: View
                     BridgeCreate()
                 }
               case .background:
+                if (oldScenePhase == .active)
+                {
+                    BridgeStop()
+                    oldScenePhase = .inactive
+                }
                 if (oldScenePhase == .inactive)
                 {
                     BridgeDestroy()

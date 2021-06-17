@@ -106,7 +106,7 @@ void SetImageData(std::uint32_t* pixels)
     pixels_ = pixels;
 }
 
-void BridgeBegin(void* me,
+void BridgeSetup(void* me,
                  FN_NEED_RESTART on_restart,
                  FN_LOAD_WEB_VIEW load_web_view,
                  FN_LOAD_IMAGE_VIEW load_image_view,
@@ -135,6 +135,10 @@ void BridgeBegin(void* me,
     post_http_ = post_http;
     play_audio_ = play_audio;
     exit_ = exit;
+}
+
+void BridgeBegin()
+{
     interface::Begin();
 }
 

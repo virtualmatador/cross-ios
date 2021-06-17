@@ -20,7 +20,7 @@ class CrossUIApp: App
     required init()
     {
         the_view_ = CrossUIView(appDelegate: appDelegate)
-        BridgeBegin(UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
+        BridgeSetup(UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
              // NeedRestart
             {(me)->Void in
                 DispatchQueue.main.async
@@ -135,15 +135,14 @@ class CrossUIApp: App
             {(me) in
                 UIApplication.shared.performSelector(onMainThread: #selector(NSXPCConnection.suspend), with: nil, waitUntilDone: false)
         });
-        BridgeCreate()
-        BridgeStart()
+        BridgeBegin()
     }
-    
+
     deinit
     {
         BridgeEnd()
     }
-
+    
     func loadAudio(_ waves: String)
     {
         let wave_arr = waves.split{$0 == " "}.map(String.init)

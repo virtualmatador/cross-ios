@@ -29,7 +29,7 @@ extern "C"
 
     void SetImageData(__uint32_t* pixels);
     
-    void BridgeBegin(void* me,
+    void BridgeSetup(void* me,
                      FN_NEED_RESTART on_restart,
                      FN_LOAD_WEB_VIEW load_web_view,
                      FN_LOAD_IMAGE_VIEW load_image_view,
@@ -43,6 +43,7 @@ extern "C"
                      FN_POST_HTTP post_http,
                      FN_PLAY_AUDIO play_audio,
                      FN_EXIT exit);
+    void BridgeBegin();
     void BridgeEnd();
     void BridgeCreate();
     void BridgeDestroy();
