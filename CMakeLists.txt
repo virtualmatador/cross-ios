@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/../core/manifest.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/extern/core/manifest.cmake")
 
 set(CMAKE_Swift_LANGUAGE_VERSION 5.4)
 set(CMAKE_SYSTEM_NAME iOS)
@@ -39,21 +39,22 @@ set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/../../assets" PROPERTIE
 )
 
 file(GLOB app_files "${CMAKE_CURRENT_SOURCE_DIR}/../../src/*.cpp")
-file(GLOB core_files "${CMAKE_CURRENT_SOURCE_DIR}/../core/src/*.cpp")
-add_library(bridge
+file(GLOB core_files "${CMAKE_CURRENT_SOURCE_DIR}/extern/core/src/*.cpp")
+add_library("bridge"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/BridgeCore.cpp"
     ${app_files}
     ${core_files}
 )
-set_target_properties(bridge PROPERTIES
+target_include_directories("bridge" PRIVATE "extern/core/src")
+set_target_properties("bridge" PROPERTIES
     CXX_STANDARD 17
     XCODE_ATTRIBUTE_SKIP_INSTALL ON
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
     "-framework UIKit"
-    bridge
-    stdc++
+    "bridge"
+    "stdc++"
 )
 
 list(APPEND resolutions

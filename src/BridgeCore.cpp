@@ -7,8 +7,8 @@
 //
 
 #include "BridgeCore.h"
-#include "../../core/src/bridge.h"
-#include "../../core/src/interface.h"
+#include "../extern/core/src/bridge.h"
+#include "../extern/core/src/interface.h"
 
 
 void* me_;
