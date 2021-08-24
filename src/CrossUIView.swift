@@ -1,8 +1,9 @@
 //
 //  SwiftUIView.swift
-//  colorcode
+//  cross
 //
 //  Created by Ali Asadpoor on 6/5/21.
+//  Copyright © 2021 shaidin. All rights reserved.
 //
 
 import SwiftUI
