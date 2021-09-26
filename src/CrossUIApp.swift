@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import AVFoundation
 
 @main
 class CrossUIApp: App
@@ -16,7 +15,6 @@ class CrossUIApp: App
     var the_view_: CrossUIView!
     var temp_buffer_: String?
     var http_params_:[(String, String)]? = []
-    var players_: [AVAudioPlayer?] = []
 
     required init()
     {
@@ -30,16 +28,14 @@ class CrossUIApp: App
                 }
         },
             // LoadWebView
-            {(me, sender, view_info, html, waves)->Void in
+            {(me, sender, view_info, html)->Void in
                 let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
                 app.the_view_.LoadWebView(sender, view_info, String(cString : html!))
-                app.loadAudio(String(cString: waves!))
         },
             // LoadImageView
-            {(me, sender, view_info, image_width, waves)->Void in
+            {(me, sender, view_info, image_width)->Void in
                 let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
                 app.the_view_.LoadImageView(sender, view_info, image_width)
-                app.loadAudio(String(cString: waves!))
         },
             // RefreshImageView
             {(me)->Void in
@@ -71,7 +67,7 @@ class CrossUIApp: App
             {(me, key, value) in
                 UserDefaults.standard.set(String(cString: value!), forKey: String(cString: key!))
         },
-            // PostThreadMessage
+            // AsyncMessage
             {(me, sender, id, command, info) in
                 let s_id = String(cString: id!)
                 let s_command = String(cString: command!)
@@ -123,15 +119,6 @@ class CrossUIApp: App
                 task.resume()
                 app.http_params_?.removeAll()
         },
-            // PlayAudio
-            {(me, index) in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
-                if (app.players_[Int(index)] != nil)
-                {
-                    app.players_[Int(index)]!.currentTime = 0
-                    app.players_[Int(index)]!.play()
-                }
-        },
             // Exit
             {(me) in
                 UIApplication.shared.performSelector(onMainThread: #selector(NSXPCConnection.suspend), with: nil, waitUntilDone: false)
@@ -142,22 +129,6 @@ class CrossUIApp: App
     deinit
     {
         BridgeEnd()
-    }
-    
-    func loadAudio(_ waves: String)
-    {
-        let wave_arr = waves.split{$0 == " "}.map(String.init)
-        players_.removeAll()
-        for wave in wave_arr
-        {
-            let url = Bundle.main.url(
-            forResource: wave,
-            withExtension: "wav",
-            subdirectory: "assets/wave")!
-            let player = try? AVAudioPlayer(contentsOf: url)
-            player?.prepareToPlay()
-            players_.append(player)
-        }
     }
     
     @Environment(\.scenePhase) var scenePhase

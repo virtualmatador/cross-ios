@@ -8,7 +8,7 @@
 
 #include "BridgeCore.h"
 #include "../extern/core/src/bridge.h"
-#include "../extern/core/src/interface.h"
+#include "../extern/core/src/cross.h"
 
 
 void* me_;
@@ -20,10 +20,9 @@ FN_CALL_FUNCTION call_function_;
 FN_GET_ASSET get_asset_;
 FN_GET_PREFERENCE get_preference_;
 FN_SET_PREFERENCE set_preference_;
-FN_POST_THREAD_MESSAGE post_thread_message_;
+FN_ASYNC_MESSAGE async_message_;
 FN_ADD_PARAM add_param_;
 FN_POST_HTTP post_http_;
-FN_PLAY_AUDIO play_audio_;
 FN_EXIT exit_;
 std::uint32_t* pixels_;
 
@@ -32,14 +31,14 @@ void bridge::NeedRestart()
     need_restart_(me_);
 }
 
-void bridge::LoadWebView(const std::int32_t sender, const std::int32_t view_info, const char* html, const char* waves)
+void bridge::LoadWebView(const std::int32_t sender, const std::int32_t view_info, const char* html)
 {
-    load_web_view_(me_, sender, view_info, html, waves);
+    load_web_view_(me_, sender, view_info, html);
 }
 
-void bridge::LoadImageView(const std::int32_t sender, const std::int32_t view_info, const std::int32_t image_width, const char* waves)
+void bridge::LoadImageView(const std::int32_t sender, const std::int32_t view_info, const std::int32_t image_width)
 {
-    load_image_view_(me_, sender, view_info, image_width, waves);
+    load_image_view_(me_, sender, view_info, image_width);
 }
 
 void bridge::RefreshImageView()
@@ -76,9 +75,9 @@ void bridge::SetPreference(const char* key, const char* value)
     set_preference_(me_, key, value);
 }
 
-void bridge::PostThreadMessage(std::int32_t sender, const char* id, const char* command, const char* info)
+void bridge::AsyncMessage(std::int32_t sender, const char* id, const char* command, const char* info)
 {
-    post_thread_message_(me_, sender, id, command, info);
+    async_message_(me_, sender, id, command, info);
 }
 
 void bridge::AddParam(const char* key, const char* value)
@@ -89,11 +88,6 @@ void bridge::AddParam(const char* key, const char* value)
 void bridge::PostHttp(std::int32_t sender,  const char* id, const char* command, const char* url)
 {
     post_http_(me_, sender, id, command, url);
-}
-
-void bridge::PlayAudio(const std::int32_t index)
-{
-    play_audio_(me_, index);
 }
 
 void bridge::Exit()
@@ -115,10 +109,9 @@ void BridgeSetup(void* me,
                  FN_GET_ASSET get_asset,
                  FN_GET_PREFERENCE get_preference,
                  FN_SET_PREFERENCE set_preference,
-                 FN_POST_THREAD_MESSAGE post_thread_message,
+                 FN_ASYNC_MESSAGE async_message,
                  FN_ADD_PARAM add_param,
                  FN_POST_HTTP post_http,
-                 FN_PLAY_AUDIO play_audio,
                  FN_EXIT exit)
 {
     me_ = me;
@@ -130,59 +123,58 @@ void BridgeSetup(void* me,
     get_asset_ = get_asset;
     get_preference_ = get_preference;
     set_preference_ = set_preference;
-    post_thread_message_ = post_thread_message;
+    async_message_ = async_message;
     add_param_ = add_param;
     post_http_ = post_http;
-    play_audio_ = play_audio;
     exit_ = exit;
 }
 
 void BridgeBegin()
 {
-    interface::Begin();
+    cross::Begin();
 }
 
 void BridgeEnd()
 {
-    interface::End();
+    cross::End();
 }
 
 void BridgeCreate()
 {
-    interface::Create();
+    cross::Create();
 }
 
 void BridgeDestroy()
 {
-    interface::Destroy();
+    cross::Destroy();
 }
 
 void BridgeStart()
 {
-    interface::Start();
+    cross::Start();
 }
 
 void BridgeStop()
 {
-    interface::Stop();
+    cross::Stop();
 }
 
 void BridgeRestart()
 {
-    interface::Restart();
+    cross::Restart();
 }
 
 void BridgeEscape()
 {
-    interface::Escape();
+    cross::Escape();
 }
 
 void BridgeHandle(const char* id, const char* command, const char* info)
 {
-    interface::Handle(id, command, info);
+    cross::Handle(id, command, info);
 }
 
 void BridgeHandleAsync(std::int32_t sender, const char* id, const char* command, const char* info)
 {
-    interface::HandleAsync(sender, id, command, info);
+    cross::HandleAsync(sender, id, command, info);
 }

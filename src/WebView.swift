@@ -34,7 +34,7 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
         let url = Bundle.main.url(
             forResource: html,
             withExtension: "htm",
-            subdirectory: "assets/html")!
+            subdirectory: "assets")!
         loadFileURL(url, allowingReadAccessTo: url)
     }
 
