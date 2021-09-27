@@ -8,21 +8,14 @@
 
 import SwiftUI
 import AVFoundation
+import WebKit
 
 class UIState: ObservableObject
 {
-    @Published var showWeb_: Bool = false
-    @Published var showImage_: Bool = false
-    @Published var showButton_: Bool = false
-
     weak var web_view_: WebView! = nil
-    var html_: String = ""
-
-    weak var image_view_: ImageView! = nil
-    var image_width_: Int32 = 0
-
-    var sender_: Int32 = 0
-    var view_info_: Int32 = 0
+    @Published var html_: String = ""
+    var sender_: __int32_t = 0
+    var view_info_: __int32_t = 0
 }
 
 struct WebViewWrapper : UIViewRepresentable
@@ -31,30 +24,18 @@ struct WebViewWrapper : UIViewRepresentable
 
     func updateUIView(_ uiView: WebView, context: Context)
     {
-        uiView.LoadView(the_state_.sender_, the_state_.html_)
+        if (!the_state_.html_.isEmpty)
+        {
+            uiView.setNeedsLayout()
+            uiView.LoadView(the_state_.sender_, the_state_.html_)
+        }
     }
+
     func makeUIView(context: Context) -> WebView
     {
         let wv = WebView()
-        wv.setup()
         the_state_.web_view_ = wv;
         return wv
-    }
-}
-
-struct ImageViewWrapper : UIViewRepresentable
-{
-    @ObservedObject var the_state_: UIState
-
-    func updateUIView(_ uiView: ImageView, context: Context)
-    {
-        uiView.LoadView(the_state_.sender_, the_state_.image_width_)
-    }
-    func makeUIView(context: Context) -> ImageView
-    {
-        let iv = ImageView()
-        the_state_.image_view_ = iv
-        return iv
     }
 }
 
@@ -67,35 +48,7 @@ struct CrossUIView: View
 
     weak var appDelegate: AppDelegate!
 
-    func LoadWebView(_ sender: Int32, _ view_info: Int32, _ html: String)
-    {
-        the_state_.showImage_ = false
-        ActivateView(view_info)
-        the_state_.sender_ = sender
-        the_state_.html_ = html
-        the_state_.showWeb_ = true
-    }
-    
-    func WebCallFunction(_ function: String)
-    {
-        the_state_.web_view_.evaluateJavaScript(function);
-    }
-
-    func LoadImageView(_ sender: Int32, _ view_info: Int32, _ image_width: Int32)
-    {
-        the_state_.showWeb_ = false
-        ActivateView(view_info)
-        the_state_.sender_ = sender
-        the_state_.image_width_ = image_width
-        the_state_.showImage_ = true
-     }
-    
-    func ImageRefresh()
-    {
-        the_state_.image_view_.Refresh()
-    }
-    
-    func ActivateView(_ view_info: Int32)
+    func LoadView(_ sender: __int32_t, _ view_info: __int32_t, _ html: String)
     {
         UIApplication.shared.isIdleTimerDisabled = (view_info & 4) != 0
         if ((view_info & 1) != 0)
@@ -119,11 +72,9 @@ struct CrossUIView: View
             appDelegate.orientationLock = UIInterfaceOrientationMask.all
         }
         UINavigationController.attemptRotationToDeviceOrientation()
-        the_state_.view_info_ = view_info
-        the_state_.showButton_ = (the_state_.view_info_ & 8) != 0
         do
         {
-            if ((view_info & 16) != 0)
+            if ((view_info & 8) != 0)
             {
                 try AVAudioSession.sharedInstance().setCategory(
                     AVAudioSession.Category.ambient)
@@ -137,42 +88,19 @@ struct CrossUIView: View
         catch
         {
         }
+        the_state_.view_info_ = view_info
+        the_state_.sender_ = sender
+        the_state_.html_ = html
     }
-     
+    
+    func WebCallFunction(_ function: String)
+    {
+        the_state_.web_view_.evaluateJavaScript(function);
+    }
+
     var body: some View
     {
-        ZStack
-        {
-            if (the_state_.showWeb_)
-            {
-                WebViewWrapper(the_state_: the_state_)
-            }
-            if (the_state_.showImage_)
-            {
-                ImageViewWrapper(the_state_: the_state_)
-                    .gesture(
-                            DragGesture(minimumDistance: 0, coordinateSpace: .global)
-                                .onChanged { value in
-                                    the_state_.image_view_.touch_moved(value.location)
-                                }
-                                .onEnded { _ in
-                                    the_state_.image_view_.touch_ended()
-                                }
-                        )
-            }
-            if (the_state_.showButton_)
-            {
-                VStack
-                {
-                    HStack
-                    {
-                        Spacer()
-                        Button(action: { BridgeEscape()}, label: { Image("MenuClose") })
-                    }
-                    Spacer()
-                }
-            }
-        }
+        WebViewWrapper(the_state_: the_state_)
         .onChange(of: scenePhase)
         {newScenePhase in
             switch newScenePhase

@@ -27,35 +27,15 @@ class CrossUIApp: App
                     BridgeRestart()
                 }
         },
-            // LoadWebView
+            // LoadView
             {(me, sender, view_info, html)->Void in
                 let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
-                app.the_view_.LoadWebView(sender, view_info, String(cString : html!))
-        },
-            // LoadImageView
-            {(me, sender, view_info, image_width)->Void in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
-                app.the_view_.LoadImageView(sender, view_info, image_width)
-        },
-            // RefreshImageView
-            {(me)->Void in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
-                app.the_view_.ImageRefresh()
+                app.the_view_.LoadView(sender, view_info, String(cString : html!))
         },
             // CallFunction
             {(me, function)->Void in
                 let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
                 app.the_view_.WebCallFunction(String(cString : function!))
-        },
-            // GetAsset
-            {(me, key) in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
-                let path = Bundle.main.path(
-                    forResource: String(cString : key!),
-                    ofType: "",
-                    inDirectory: "assets")!
-                app.temp_buffer_ = try! String(contentsOfFile: path)
-                return UnsafePointer<Int8>(app.temp_buffer_)
         },
             // GetPreference
             {(me, key) in
@@ -118,6 +98,19 @@ class CrossUIApp: App
                 })
                 task.resume()
                 app.http_params_?.removeAll()
+        },
+            // CreateImage
+            {(me, id, parent)->Void in
+                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
+                app.the_view_.WebCallFunction(
+                    "var img = document.createElement('img');" +
+                    "img.setAttribute('id', '" + String(cString : id!) + "');" +
+                    "document.getElementById('" + String(cString : parent!) + "').appendChild(img);")
+        },
+            // ResetImage
+            {(me, sender, index, id)->Void in
+                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
+                app.the_view_.WebCallFunction("resetImage(" + String(sender) + "," + String(index) + ",'" + String(cString : id!) + "')")
         },
             // Exit
             {(me) in

@@ -10,59 +10,32 @@
 #include "../extern/core/src/bridge.h"
 #include "../extern/core/src/cross.h"
 
-
 void* me_;
 FN_NEED_RESTART need_restart_;
-FN_LOAD_WEB_VIEW load_web_view_;
-FN_LOAD_IMAGE_VIEW load_image_view_;
-FN_REFRESH_IMAGE_VIEW refresh_image_view_;
+FN_LOAD_VIEW load_view_;
 FN_CALL_FUNCTION call_function_;
-FN_GET_ASSET get_asset_;
 FN_GET_PREFERENCE get_preference_;
 FN_SET_PREFERENCE set_preference_;
 FN_ASYNC_MESSAGE async_message_;
 FN_ADD_PARAM add_param_;
 FN_POST_HTTP post_http_;
+FN_CREATE_IMAGE create_image_;
+FN_RESET_IMAGE reset_image_;
 FN_EXIT exit_;
-std::uint32_t* pixels_;
 
 void bridge::NeedRestart()
 {
     need_restart_(me_);
 }
 
-void bridge::LoadWebView(const std::int32_t sender, const std::int32_t view_info, const char* html)
+void bridge::LoadView(const std::int32_t sender, const std::int32_t view_info, const char* html)
 {
-    load_web_view_(me_, sender, view_info, html);
-}
-
-void bridge::LoadImageView(const std::int32_t sender, const std::int32_t view_info, const std::int32_t image_width)
-{
-    load_image_view_(me_, sender, view_info, image_width);
-}
-
-void bridge::RefreshImageView()
-{
-    refresh_image_view_(me_);
-}
-
-std::uint32_t* bridge::GetPixels()
-{
-    return pixels_;
-}
-
-void bridge::ReleasePixels(std::uint32_t *pixels)
-{
+    load_view_(me_, sender, view_info, html);
 }
 
 void bridge::CallFunction(const char* function)
 {
     call_function_(me_, function);
-}
-
-std::string bridge::GetAsset(const char *key)
-{
-    return get_asset_(me_, key);
 }
 
 std::string bridge::GetPreference(const char* key)
@@ -90,42 +63,45 @@ void bridge::PostHttp(std::int32_t sender,  const char* id, const char* command,
     post_http_(me_, sender, id, command, url);
 }
 
+void bridge::CreateImage(const char* id, const char* parent)
+{
+    create_image_(me_, id, parent);
+}
+
+void bridge::ResetImage(const std::int32_t sender, const std::int32_t index, const char *id)
+{
+    reset_image_(me_, sender, index, id);
+}
+
 void bridge::Exit()
 {
     exit_(me_);
 }
 
-void SetImageData(std::uint32_t* pixels)
-{
-    pixels_ = pixels;
-}
-
 void BridgeSetup(void* me,
                  FN_NEED_RESTART on_restart,
-                 FN_LOAD_WEB_VIEW load_web_view,
-                 FN_LOAD_IMAGE_VIEW load_image_view,
-                 FN_REFRESH_IMAGE_VIEW refresh_image_view,
+                 FN_LOAD_VIEW load_view,
                  FN_CALL_FUNCTION call_function,
-                 FN_GET_ASSET get_asset,
                  FN_GET_PREFERENCE get_preference,
                  FN_SET_PREFERENCE set_preference,
                  FN_ASYNC_MESSAGE async_message,
                  FN_ADD_PARAM add_param,
                  FN_POST_HTTP post_http,
+                 FN_CREATE_IMAGE create_image,
+                 FN_RESET_IMAGE reset_image,
                  FN_EXIT exit)
 {
     me_ = me;
     need_restart_ = on_restart;
-    load_web_view_ = load_web_view;
-    load_image_view_ = load_image_view;
-    refresh_image_view_ = refresh_image_view;
+    load_view_ = load_view;
     call_function_ = call_function;
-    get_asset_ = get_asset;
     get_preference_ = get_preference;
     set_preference_ = set_preference;
     async_message_ = async_message;
     add_param_ = add_param;
     post_http_ = post_http;
+    create_image_ = create_image;
+    reset_image_ = reset_image;
     exit_ = exit;
 }
 
@@ -162,6 +138,14 @@ void BridgeStop()
 void BridgeRestart()
 {
     cross::Restart();
+}
+
+void BridgeFeedUri(void* me, const char* uri, void(*consume)(void* me, void* data, __int32_t size))
+{
+    cross::FeedUri(uri, [&](const std::vector<unsigned char>& data)
+    {
+        consume(me, (void*)data.data(), (__int32_t)data.size());
+    });
 }
 
 void BridgeEscape()

@@ -13,7 +13,6 @@ add_executable(${CMAKE_PROJECT_NAME}
     src/CrossUIApp.swift
     src/CrossUIView.swift
     src/WebView.swift
-    src/ImageView.swift
 )
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
     XCODE_ATTRIBUTE_SWIFT_OBJC_BRIDGING_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/BridgeCore.h"

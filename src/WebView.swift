@@ -8,29 +8,69 @@
 
 import WebKit
 
+class SchemaHandlerCross: NSObject, WKURLSchemeHandler
+{
+    var data_: UnsafeMutableRawPointer?
+    var size_: __int32_t = 0
+
+    func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask)
+    {
+        BridgeFeedUri(UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
+              urlSchemeTask.request.url?.absoluteString,
+        {(me, data, size)->Void in
+            let handler = Unmanaged<SchemaHandlerCross>.fromOpaque(me!).takeUnretainedValue()
+            handler.data_ = data;
+            handler.size_ = size;
+        })
+        urlSchemeTask.didReceive(URLResponse(url: urlSchemeTask.request.url!, mimeType: "", expectedContentLength: Int(size_), textEncodingName: nil))
+        if (data_ != nil)
+        {
+            urlSchemeTask.didReceive(Data.init(bytes: data_!, count: Int(size_)))
+        }
+        urlSchemeTask.didFinish()
+    }
+    
+    func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask)
+    {
+    }
+}
+
+class SchemaHandlerAsset: NSObject, WKURLSchemeHandler
+{
+    func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask)
+    {
+        let fileName = urlSchemeTask.request.url?.absoluteString.replacingOccurrences(of: "asset://", with: "assets/")
+        let data = try! Data.init(contentsOf: Bundle.main.url(forResource: fileName, withExtension: "")!)
+        urlSchemeTask.didReceive(URLResponse(url: urlSchemeTask.request.url!, mimeType: "", expectedContentLength: Int(data.count), textEncodingName: nil))
+        urlSchemeTask.didReceive(data)
+        urlSchemeTask.didFinish()
+    }
+    
+    func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask)
+    {
+    }
+}
+
 class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
 {
+    var sender_: __int32_t = 0
 
-    var web_finish_: String = ""
-    var sender_: Int32 = 0
-
-    func setup()
-    {
-        configuration.userContentController.add(self, name: "Handler_")
+    override init(frame: CGRect, configuration: WKWebViewConfiguration) {
+        configuration.setURLSchemeHandler(SchemaHandlerCross.init(), forURLScheme: "cross")
+        configuration.setURLSchemeHandler(SchemaHandlerAsset.init(), forURLScheme: "asset")
+        super.init(frame: frame, configuration: configuration)
+        self.configuration.userContentController.add(self, name: "Handler_")
         navigationDelegate = self
+        scrollView.bounces = false
     }
-
-    func LoadView(_ sender: Int32, _ html: String)
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func LoadView(_ sender: __int32_t, _ html: String)
     {
         sender_ = sender
-        web_finish_ =
-            "var Handler = window.webkit.messageHandlers.Handler_;" +
-            "var Handler_Receiver = \(sender_);" +
-            "function CallHandler(id, command, info)" +
-            "{" +
-                "Handler.postMessage(JSON.stringify(" +
-                "{\"Receiver\": Handler_Receiver, \"id\": id, \"command\": command, \"info\": info}));" +
-            "}"
         let url = Bundle.main.url(
             forResource: html,
             withExtension: "htm",
@@ -40,11 +80,19 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
     {
-        if (!web_finish_.isEmpty)
-        {
-            webView.evaluateJavaScript(web_finish_)
-            BridgeHandleAsync(sender_, "body", "ready", "")
-        }
+        webView.evaluateJavaScript(
+            "var Handler = window.webkit.messageHandlers.Handler_;" +
+            "var Handler_Receiver = \(sender_);" +
+            "function CallHandler(id, command, info)" +
+            "{" +
+                "Handler.postMessage(JSON.stringify({\"Receiver\": Handler_Receiver, \"id\": id, \"command\": command, \"info\": info}));" +
+            "}" +
+            "var cross_asset_domain_ = 'asset://';" +
+            "var cross_asset_async_ = false;" +
+            "var cross_pointer_type_ = 'touch';" +
+            "var cross_pointer_upsidedown_ = false;"
+            )
+        BridgeHandleAsync(sender_, "body", "ready", "")
     }
     
     func userContentController(_ userContentController: WKUserContentController,
