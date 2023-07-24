@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 include("${CMAKE_CURRENT_SOURCE_DIR}/extern/core/manifest.cmake")
 
-set(CMAKE_Swift_LANGUAGE_VERSION 5.4)
+set(CMAKE_Swift_LANGUAGE_VERSION 5.8)
 set(CMAKE_SYSTEM_NAME iOS)
 set(CMAKE_SYSTEM_VERSION 14.5)
 set(CMAKE_MACOSX_BUNDLE ON)
