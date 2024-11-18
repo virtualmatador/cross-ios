@@ -129,7 +129,7 @@ class CrossUIApp: App
     {
         WindowGroup
         {
-            the_view_.ignoresSafeArea()
+            self.the_view_.ignoresSafeArea()
         }
     }
 }
