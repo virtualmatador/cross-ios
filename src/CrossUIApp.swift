@@ -9,16 +9,30 @@
 import SwiftUI
 
 @main
-class CrossUIApp: App
+struct CrossUIApp: App
 {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.scenePhase) var scenePhase
+    var body: some Scene
+    {
+        WindowGroup
+        {
+            appDelegate.the_view_.ignoresSafeArea()
+        }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate
+{
+    var orientationLock = UIInterfaceOrientationMask.all
     var the_view_: CrossUIView!
     var temp_buffer_: String?
     var http_params_:[(String, String)]? = []
 
-    required init()
+    required override init()
     {
-        the_view_ = CrossUIView(appDelegate: appDelegate)
+        super.init()
+        the_view_ = CrossUIView(appDelegate: self)
         BridgeSetup(UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
              // NeedRestart
             {(me)->Void in
@@ -29,17 +43,17 @@ class CrossUIApp: App
         },
             // LoadView
             {(me, sender, view_info, html)->Void in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
+            let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 app.the_view_.LoadView(sender, view_info, String(cString : html!))
         },
             // CallFunction
             {(me, function)->Void in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 app.the_view_.WebCallFunction(String(cString : function!))
         },
             // GetPreference
             {(me, key) in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 app.temp_buffer_ = UserDefaults.standard.string(forKey: String(cString : key!)) ?? ""
                 return UnsafePointer<Int8>(app.temp_buffer_)
         },
@@ -59,12 +73,12 @@ class CrossUIApp: App
         },
             // AddParam
             {(me, key, value) in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 app.http_params_!.append((String(cString: key!), String(cString: value!)))
         },
             // PostHttp
             {(me, sender, id, command, url) in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 let s_id = String(cString: id!)
                 let s_command = String(cString: command!)
                 var s_info: String = ""
@@ -101,7 +115,7 @@ class CrossUIApp: App
         },
             // CreateImage
             {(me, id, parent)->Void in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 app.the_view_.WebCallFunction(
                     "var img = document.createElement('img');" +
                     "img.setAttribute('id', '" + String(cString : id!) + "');" +
@@ -109,7 +123,7 @@ class CrossUIApp: App
         },
             // ResetImage
             {(me, sender, index, id)->Void in
-                let app = Unmanaged<CrossUIApp>.fromOpaque(me!).takeUnretainedValue()
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 app.the_view_.WebCallFunction("resetImage(" + String(sender) + "," + String(index) + ",'" + String(cString : id!) + "')")
         },
             // Exit
@@ -123,20 +137,6 @@ class CrossUIApp: App
     {
         BridgeEnd()
     }
-    
-    @Environment(\.scenePhase) var scenePhase
-    var body: some Scene
-    {
-        WindowGroup
-        {
-            self.the_view_.ignoresSafeArea()
-        }
-    }
-}
-
-class AppDelegate: NSObject, UIApplicationDelegate
-{
-    var orientationLock = UIInterfaceOrientationMask.all
 
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask
     {
