@@ -23,6 +23,8 @@ FN_CREATE_IMAGE create_image_;
 FN_RESET_IMAGE reset_image_;
 FN_EXIT exit_;
 
+std::string preference_;
+
 void bridge::NeedRestart()
 {
     need_restart_(me_);
@@ -40,7 +42,8 @@ void bridge::CallFunction(const char* function)
 
 std::string bridge::GetPreference(const char* key)
 {
-    return get_preference_(me_, key);
+    get_preference_(me_, key);
+    return preference_;
 }
 
 void bridge::SetPreference(const char* key, const char* value)
@@ -161,4 +164,9 @@ void BridgeHandle(const char* id, const char* command, const char* info)
 void BridgeHandleAsync(std::int32_t sender, const char* id, const char* command, const char* info)
 {
     cross::HandleAsync(sender, id, command, info);
+}
+
+void BridgeStorePreference(const char* preference)
+{
+    preference_ = preference;
 }

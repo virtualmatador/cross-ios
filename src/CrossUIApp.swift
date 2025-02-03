@@ -26,12 +26,9 @@ class AppDelegate: NSObject, UIApplicationDelegate
 {
     var orientationLock = UIInterfaceOrientationMask.all
     var the_view_: CrossUIView!
-    var temp_buffer_: String?
     var http_params_:[(String, String)]? = []
-
-    required override init()
-    {
-        super.init()
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         the_view_ = CrossUIView(appDelegate: self)
         BridgeSetup(UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
              // NeedRestart
@@ -53,9 +50,10 @@ class AppDelegate: NSObject, UIApplicationDelegate
         },
             // GetPreference
             {(me, key) in
-                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
-                app.temp_buffer_ = UserDefaults.standard.string(forKey: String(cString : key!)) ?? ""
-                return UnsafePointer<Int8>(app.temp_buffer_)
+            let preference = UserDefaults.standard.string(forKey: String(cString : key!)) ?? ""
+            preference.withCString({(buffer)->Void in
+                BridgeStorePreference(buffer)
+            })
         },
             // SetPreference
             {(me, key, value) in
@@ -131,10 +129,10 @@ class AppDelegate: NSObject, UIApplicationDelegate
                 UIApplication.shared.performSelector(onMainThread: #selector(NSXPCConnection.suspend), with: nil, waitUntilDone: false)
         });
         BridgeBegin()
+        return true
     }
-
-    deinit
-    {
+    
+    func applicationWillTerminate(_ application: UIApplication) {
         BridgeEnd()
     }
 

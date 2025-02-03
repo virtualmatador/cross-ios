@@ -16,7 +16,7 @@ extern "C"
     typedef void (*FN_NEED_RESTART)(void* me);
     typedef void (*FN_LOAD_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const char* html);
     typedef void (*FN_CALL_FUNCTION)(void* me, const char* function);
-    typedef const char* (*FN_GET_PREFERENCE)(void* me, const char* key);
+    typedef void (*FN_GET_PREFERENCE)(void* me, const char* key);
     typedef void (*FN_SET_PREFERENCE)(void* me, const char* key, const char* value);
     typedef void (*FN_ASYNC_MESSAGE)(void* me, const __int32_t sender, const char* id, const char* command, const char* info);
     typedef void (*FN_ADD_PARAM)(void* me, const char* key, const char* value);
@@ -48,6 +48,7 @@ extern "C"
     void BridgeEscape();
     void BridgeHandle(const char* id, const char* command, const char* info);
     void BridgeHandleAsync(__int32_t sender, const char* id, const char* command, const char* info);
+    void BridgeStorePreference(const char* preference);
 
 #ifdef __cplusplus
 }
