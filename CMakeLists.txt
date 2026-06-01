@@ -118,8 +118,17 @@ add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xm
 
 add_custom_target("ipa" ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp")
 add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp"
-    COMMAND xcodebuild -project "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcodeproj" -scheme "${CMAKE_PROJECT_NAME}" -configuration ${CMAKE_BUILD_TYPE} -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive" -destination 'generic/platform=iOS' archive
-    COMMAND xcodebuild -exportArchive -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive" -exportPath "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp" -exportOptionsPlist "${CMAKE_CURRENT_SOURCE_DIR}/ipa.plist" -allowProvisioningUpdates
+    COMMAND xcodebuild -project "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcodeproj"
+        -scheme "${CMAKE_PROJECT_NAME}"
+        -configuration ${CMAKE_BUILD_TYPE}
+        -derivedDataPath "${CMAKE_CURRENT_BINARY_DIR}/DerivedData"
+        -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive"
+        -destination 'generic/platform=iOS' archive
+    COMMAND xcodebuild -exportArchive
+        -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive"
+        -exportPath "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp"
+        -exportOptionsPlist "${CMAKE_CURRENT_SOURCE_DIR}/ipa.plist"
+        -allowProvisioningUpdates
 )
 
 add_dependencies("ipa" ${CMAKE_PROJECT_NAME})
