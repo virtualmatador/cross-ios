@@ -95,26 +95,14 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME} PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Assets.xcassets" "${CMAKE_CURRENT_BINARY_DIR}/Assets.xcassets"
 )
 
-add_custom_target("apple-id" ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/apple-id")
-add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/apple-id"
-    COMMAND ${CMAKE_COMMAND} -E echo "${CROSS_DEVELOPER_APPLE_ID}" > "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/apple-id"
-)
-
-add_custom_target("metadata" ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml")
-add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '<?xml version="1.0" encoding="UTF-8"?>' > "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '<package xmlns="http://apple.com/itunes/importer" version="software5.4">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '  <software_assets apple_id="${CROSS_PROJECT_APPLE_ID}" app_platform="ios">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '    <asset type="bundle">' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '      <data_file>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '        <size>'\$\( stat -f %z "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/${CMAKE_PROJECT_NAME}.ipa" \)'</size>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '        <file_name>${CMAKE_PROJECT_NAME}.ipa</file_name>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '        <checksum type="md5">'\$\( md5 -q "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/${CMAKE_PROJECT_NAME}.ipa" \)'</checksum>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '      </data_file>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '    </asset>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '  </software_assets>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-    COMMAND ${CMAKE_COMMAND} -E echo '</package>' >> "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/metadata.xml"
-)
+file(CONFIGURE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/deploy.json"
+     CONTENT [=[
+{
+  "apple-id": "@CROSS_DEVELOPER_APPLE_ID@",
+  "title": "@CMAKE_PROJECT_NAME@",
+  "provider": "@CROSS_TEAM_ID@"
+}
+]=])
 
 add_custom_target("ipa" ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp")
 add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp"
