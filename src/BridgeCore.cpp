@@ -13,6 +13,9 @@
 void* me_;
 FN_NEED_RESTART need_restart_;
 FN_LOAD_VIEW load_view_;
+FN_SET_SCREEN_ON set_screen_on_;
+FN_SET_AUDIO_NO_SOLO set_audio_no_solo_;
+FN_SET_LAYOUT set_layout_;
 FN_CALL_FUNCTION call_function_;
 FN_GET_PREFERENCE get_preference_;
 FN_SET_PREFERENCE set_preference_;
@@ -30,9 +33,24 @@ void bridge::NeedRestart()
     need_restart_(me_);
 }
 
-void bridge::LoadView(const std::int32_t sender, const std::int32_t view_info, const char* html)
+void bridge::LoadView(const std::int32_t sender, const char* html)
 {
-    load_view_(me_, sender, view_info, html);
+    load_view_(me_, sender, html);
+}
+
+void bridge::SetScreenOn(bool screen_on)
+{
+    set_screen_on_(me_, screen_on ? 1 : 0);
+}
+
+void bridge::SetAudioNoSolo(bool audio_no_solo)
+{
+    set_audio_no_solo_(me_, audio_no_solo ? 1 : 0);
+}
+
+void bridge::SetLayout(bool portrait, bool landscape)
+{
+    set_layout_(me_, portrait ? 1 : 0, landscape ? 1 : 0);
 }
 
 void bridge::CallFunction(const char* function)
@@ -84,6 +102,9 @@ void bridge::Exit()
 void BridgeSetup(void* me,
                  FN_NEED_RESTART on_restart,
                  FN_LOAD_VIEW load_view,
+                 FN_SET_SCREEN_ON set_screen_on,
+                 FN_SET_AUDIO_NO_SOLO set_audio_no_solo,
+                 FN_SET_LAYOUT set_layout,
                  FN_CALL_FUNCTION call_function,
                  FN_GET_PREFERENCE get_preference,
                  FN_SET_PREFERENCE set_preference,
@@ -97,6 +118,9 @@ void BridgeSetup(void* me,
     me_ = me;
     need_restart_ = on_restart;
     load_view_ = load_view;
+    set_screen_on_ = set_screen_on;
+    set_audio_no_solo_ = set_audio_no_solo;
+    set_layout_ = set_layout;
     call_function_ = call_function;
     get_preference_ = get_preference;
     set_preference_ = set_preference;

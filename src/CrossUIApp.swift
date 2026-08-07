@@ -6,6 +6,7 @@
 //  Copyright © 2021 shaidin. All rights reserved.
 //
 
+import AVFoundation
 import SwiftUI
 
 @main
@@ -39,9 +40,43 @@ class AppDelegate: NSObject, UIApplicationDelegate
                 }
         },
             // LoadView
-            {(me, sender, view_info, html)->Void in
-            let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
-                app.the_view_.LoadView(sender, view_info, String(cString : html!))
+            {(me, sender, html)->Void in
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
+                let file = String(cString : html!)
+                DispatchQueue.main.async
+                {
+                    app.the_view_.LoadView(sender, file)
+                }
+        },
+            // SetScreenOn
+            {(me, screen_on)->Void in
+                DispatchQueue.main.async
+                {
+                    UIApplication.shared.isIdleTimerDisabled = screen_on != 0
+                }
+        },
+            // SetAudioNoSolo
+            {(me, audio_no_solo)->Void in
+                DispatchQueue.main.async
+                {
+                    do
+                    {
+                        try AVAudioSession.sharedInstance().setCategory(
+                            audio_no_solo != 0 ? .ambient : .soloAmbient)
+                    }
+                    catch
+                    {
+                    }
+                }
+        },
+            // SetLayout
+            {(me, portrait, landscape)->Void in
+                let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
+                DispatchQueue.main.async
+                {
+                    app.the_view_.SetLayout(
+                        portrait != 0, landscape != 0)
+                }
         },
             // CallFunction
             {(me, function)->Void in

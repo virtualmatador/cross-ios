@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import AVFoundation
 import WebKit
 
 class UIState: ObservableObject
@@ -15,7 +14,6 @@ class UIState: ObservableObject
     weak var web_view_: WebView! = nil
     @Published var html_: String = ""
     var sender_: __int32_t = 0
-    var view_info_: __int32_t = 0
 }
 
 struct WebViewWrapper : UIViewRepresentable
@@ -48,10 +46,9 @@ struct CrossUIView: View
 
     weak var appDelegate: AppDelegate!
 
-    func LoadView(_ sender: __int32_t, _ view_info: __int32_t, _ html: String)
+    func SetLayout(_ portrait: Bool, _ landscape: Bool)
     {
-        UIApplication.shared.isIdleTimerDisabled = (view_info & 4) != 0
-        if ((view_info & 1) != 0)
+        if (portrait)
         {
             appDelegate.orientationLock = UIInterfaceOrientationMask.portrait
             if (UIDevice.current.orientation.rawValue != UIInterfaceOrientation.portraitUpsideDown.rawValue)
@@ -59,7 +56,7 @@ struct CrossUIView: View
                 UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
             }
         }
-        else if ((view_info & 2) != 0)
+        else if (landscape)
         {
             appDelegate.orientationLock = UIInterfaceOrientationMask.landscape
             if (UIDevice.current.orientation.rawValue != UIInterfaceOrientation.landscapeRight.rawValue)
@@ -72,23 +69,10 @@ struct CrossUIView: View
             appDelegate.orientationLock = UIInterfaceOrientationMask.all
         }
         UINavigationController.attemptRotationToDeviceOrientation()
-        do
-        {
-            if ((view_info & 8) != 0)
-            {
-                try AVAudioSession.sharedInstance().setCategory(
-                    AVAudioSession.Category.ambient)
-            }
-            else
-            {
-                try AVAudioSession.sharedInstance().setCategory(
-                    AVAudioSession.Category.soloAmbient)                
-            }
-        }
-        catch
-        {
-        }
-        the_state_.view_info_ = view_info
+    }
+
+    func LoadView(_ sender: __int32_t, _ html: String)
+    {
         the_state_.sender_ = sender
         the_state_.html_ = html
     }

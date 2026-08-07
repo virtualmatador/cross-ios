@@ -14,7 +14,10 @@ extern "C"
 #endif
 
     typedef void (*FN_NEED_RESTART)(void* me);
-    typedef void (*FN_LOAD_VIEW)(void* me, const __int32_t sender, const __int32_t view_info, const char* html);
+    typedef void (*FN_LOAD_VIEW)(void* me, const __int32_t sender, const char* html);
+    typedef void (*FN_SET_SCREEN_ON)(void* me, const __int32_t screen_on);
+    typedef void (*FN_SET_AUDIO_NO_SOLO)(void* me, const __int32_t audio_no_solo);
+    typedef void (*FN_SET_LAYOUT)(void* me, const __int32_t portrait, const __int32_t landscape);
     typedef void (*FN_CALL_FUNCTION)(void* me, const char* function);
     typedef void (*FN_GET_PREFERENCE)(void* me, const char* key);
     typedef void (*FN_SET_PREFERENCE)(void* me, const char* key, const char* value);
@@ -28,6 +31,9 @@ extern "C"
     void BridgeSetup(void* me,
                      FN_NEED_RESTART on_restart,
                      FN_LOAD_VIEW load_view,
+                     FN_SET_SCREEN_ON set_screen_on,
+                     FN_SET_AUDIO_NO_SOLO set_audio_no_solo,
+                     FN_SET_LAYOUT set_layout,
                      FN_CALL_FUNCTION call_function,
                      FN_GET_PREFERENCE get_preference,
                      FN_SET_PREFERENCE set_preference,
