@@ -13,7 +13,6 @@ extern "C"
 {
 #endif
 
-    typedef void (*FN_NEED_RESTART)(void* me);
     typedef void (*FN_LOAD_VIEW)(void* me, const __int32_t sender, const char* html);
     typedef void (*FN_SET_SCREEN_ON)(void* me, const __int32_t screen_on);
     typedef void (*FN_SET_AUDIO_NO_SOLO)(void* me, const __int32_t audio_no_solo);
@@ -29,7 +28,6 @@ extern "C"
     typedef void (*FN_EXIT)(void* me);
 
     void BridgeSetup(void* me,
-                     FN_NEED_RESTART on_restart,
                      FN_LOAD_VIEW load_view,
                      FN_SET_SCREEN_ON set_screen_on,
                      FN_SET_AUDIO_NO_SOLO set_audio_no_solo,
@@ -49,7 +47,6 @@ extern "C"
     void BridgeDestroy();
     void BridgeStart();
     void BridgeStop();
-    void BridgeRestart();
     void BridgeFeedUri(void* me, const char* uri, void(*consume)(void* me, void* data, __int32_t size));
     void BridgeEscape();
     void BridgeHandle(const char* id, const char* command, const char* info);

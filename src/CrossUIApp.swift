@@ -13,7 +13,6 @@ import SwiftUI
 struct CrossUIApp: App
 {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @Environment(\.scenePhase) var scenePhase
     var body: some Scene
     {
         WindowGroup
@@ -27,25 +26,20 @@ class AppDelegate: NSObject, UIApplicationDelegate
 {
     var orientationLock = UIInterfaceOrientationMask.all
     var the_view_: CrossUIView!
+    var ui_state_: UIState!
     var http_params_:[(String, String)]? = []
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        the_view_ = CrossUIView(appDelegate: self)
+        ui_state_ = UIState()
+        the_view_ = CrossUIView(state: ui_state_)
         BridgeSetup(UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
-             // NeedRestart
-            {(me)->Void in
-                DispatchQueue.main.async
-                {
-                    BridgeRestart()
-                }
-        },
             // LoadView
             {(me, sender, html)->Void in
                 let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 let file = String(cString : html!)
                 DispatchQueue.main.async
                 {
-                    app.the_view_.LoadView(sender, file)
+                    app.ui_state_.LoadView(sender, file)
                 }
         },
             // SetScreenOn
@@ -74,14 +68,17 @@ class AppDelegate: NSObject, UIApplicationDelegate
                 let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
                 DispatchQueue.main.async
                 {
-                    app.the_view_.SetLayout(
-                        portrait != 0, landscape != 0)
+                    app.SetLayout(portrait != 0, landscape != 0)
                 }
         },
             // CallFunction
             {(me, function)->Void in
                 let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
-                app.the_view_.WebCallFunction(String(cString : function!))
+                let script = String(cString : function!)
+                DispatchQueue.main.async
+                {
+                    app.ui_state_.WebCallFunction(script)
+                }
         },
             // GetPreference
             {(me, key) in
@@ -149,15 +146,23 @@ class AppDelegate: NSObject, UIApplicationDelegate
             // CreateImage
             {(me, id, parent)->Void in
                 let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
-                app.the_view_.WebCallFunction(
+                let script =
                     "var img = document.createElement('img');" +
                     "img.setAttribute('id', '" + String(cString : id!) + "');" +
-                    "document.getElementById('" + String(cString : parent!) + "').appendChild(img);")
+                    "document.getElementById('" + String(cString : parent!) + "').appendChild(img);"
+                DispatchQueue.main.async
+                {
+                    app.ui_state_.WebCallFunction(script)
+                }
         },
             // ResetImage
             {(me, sender, index, id)->Void in
                 let app = Unmanaged<AppDelegate>.fromOpaque(me!).takeUnretainedValue()
-                app.the_view_.WebCallFunction("resetImage(" + String(sender) + "," + String(index) + ",'" + String(cString : id!) + "')")
+                let script = "resetImage(" + String(sender) + "," + String(index) + ",'" + String(cString : id!) + "')"
+                DispatchQueue.main.async
+                {
+                    app.ui_state_.WebCallFunction(script)
+                }
         },
             // Exit
             {(me) in
@@ -174,5 +179,30 @@ class AppDelegate: NSObject, UIApplicationDelegate
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask
     {
         return orientationLock
+    }
+
+    func SetLayout(_ portrait: Bool, _ landscape: Bool)
+    {
+        if (portrait)
+        {
+            orientationLock = UIInterfaceOrientationMask.portrait
+            if (UIDevice.current.orientation.rawValue != UIInterfaceOrientation.portraitUpsideDown.rawValue)
+            {
+                UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            }
+        }
+        else if (landscape)
+        {
+            orientationLock = UIInterfaceOrientationMask.landscape
+            if (UIDevice.current.orientation.rawValue != UIInterfaceOrientation.landscapeRight.rawValue)
+            {
+                UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
+            }
+        }
+        else
+        {
+            orientationLock = UIInterfaceOrientationMask.all
+        }
+        UINavigationController.attemptRotationToDeviceOrientation()
     }
 }

@@ -11,7 +11,6 @@
 #include "../extern/core/src/cross.h"
 
 void* me_;
-FN_NEED_RESTART need_restart_;
 FN_LOAD_VIEW load_view_;
 FN_SET_SCREEN_ON set_screen_on_;
 FN_SET_AUDIO_NO_SOLO set_audio_no_solo_;
@@ -27,11 +26,6 @@ FN_RESET_IMAGE reset_image_;
 FN_EXIT exit_;
 
 std::string preference_;
-
-void bridge::NeedRestart()
-{
-    need_restart_(me_);
-}
 
 void bridge::LoadView(const std::int32_t sender, const char* html)
 {
@@ -100,7 +94,6 @@ void bridge::Exit()
 }
 
 void BridgeSetup(void* me,
-                 FN_NEED_RESTART on_restart,
                  FN_LOAD_VIEW load_view,
                  FN_SET_SCREEN_ON set_screen_on,
                  FN_SET_AUDIO_NO_SOLO set_audio_no_solo,
@@ -116,7 +109,6 @@ void BridgeSetup(void* me,
                  FN_EXIT exit)
 {
     me_ = me;
-    need_restart_ = on_restart;
     load_view_ = load_view;
     set_screen_on_ = set_screen_on;
     set_audio_no_solo_ = set_audio_no_solo;
@@ -160,11 +152,6 @@ void BridgeStart()
 void BridgeStop()
 {
     cross::Stop();
-}
-
-void BridgeRestart()
-{
-    cross::Restart();
 }
 
 void BridgeFeedUri(void* me, const char* uri, void(*consume)(void* me, void* data, __int32_t size))

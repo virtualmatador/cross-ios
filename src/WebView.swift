@@ -10,22 +10,42 @@ import WebKit
 
 class SchemaHandlerCross: NSObject, WKURLSchemeHandler
 {
-    var data_: UnsafeMutableRawPointer?
-    var size_: __int32_t = 0
+    private class FeedResult
+    {
+        var data = Data()
+    }
 
     func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask)
     {
-        BridgeFeedUri(UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
-              urlSchemeTask.request.url?.absoluteString,
-        {(me, data, size)->Void in
-            let handler = Unmanaged<SchemaHandlerCross>.fromOpaque(me!).takeUnretainedValue()
-            handler.data_ = data;
-            handler.size_ = size;
-        })
-        urlSchemeTask.didReceive(URLResponse(url: urlSchemeTask.request.url!, mimeType: "", expectedContentLength: Int(size_), textEncodingName: nil))
-        if (data_ != nil)
+        let result = FeedResult()
+        let feed =
         {
-            urlSchemeTask.didReceive(Data.init(bytes: data_!, count: Int(size_)))
+            BridgeFeedUri(
+                UnsafeMutableRawPointer(Unmanaged.passUnretained(result).toOpaque()),
+                urlSchemeTask.request.url?.absoluteString,
+                {(me, data, size)->Void in
+                    guard let me = me, let data = data, size > 0 else
+                    {
+                        return
+                    }
+                    let result = Unmanaged<FeedResult>.fromOpaque(me).takeUnretainedValue()
+                    result.data = Data(bytes: data, count: Int(size))
+                })
+        }
+        if (Thread.isMainThread)
+        {
+            feed()
+        }
+        else
+        {
+            DispatchQueue.main.sync(execute: feed)
+        }
+        urlSchemeTask.didReceive(URLResponse(
+            url: urlSchemeTask.request.url!, mimeType: "",
+            expectedContentLength: result.data.count, textEncodingName: nil))
+        if (!result.data.isEmpty)
+        {
+            urlSchemeTask.didReceive(result.data)
         }
         urlSchemeTask.didFinish()
     }
@@ -53,7 +73,7 @@ class SchemaHandlerAsset: NSObject, WKURLSchemeHandler
 
 class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
 {
-    var sender_: __int32_t = 0
+    private var navigation_receivers_: [ObjectIdentifier: __int32_t] = [:]
 
     override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         configuration.setURLSchemeHandler(SchemaHandlerCross.init(), forURLScheme: "cross")
@@ -70,19 +90,29 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
     
     func LoadView(_ sender: __int32_t, _ html: String)
     {
-        sender_ = sender
         let url = Bundle.main.url(
             forResource: html,
             withExtension: "htm",
             subdirectory: "assets")!
-        loadFileURL(url, allowingReadAccessTo: url)
+        navigation_receivers_.removeAll()
+        if let navigation = loadFileURL(url, allowingReadAccessTo: url)
+        {
+            navigation_receivers_[ObjectIdentifier(navigation)] = sender
+        }
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
     {
+        guard let navigation = navigation,
+              let receiver = navigation_receivers_.removeValue(
+                forKey: ObjectIdentifier(navigation))
+        else
+        {
+            return
+        }
         webView.evaluateJavaScript(
             "var Handler = window.webkit.messageHandlers.Handler_;" +
-            "var Handler_Receiver = \(sender_);" +
+            "var Handler_Receiver = \(receiver);" +
             "function CallHandler(id, command, info)" +
             "{" +
                 "Handler.postMessage(JSON.stringify({\"Receiver\": Handler_Receiver, \"id\": id, \"command\": command, \"info\": info}));" +
@@ -92,7 +122,7 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
             "var cross_pointer_type_ = 'touch';" +
             "var cross_pointer_upsidedown_ = false;"
             )
-        BridgeHandleAsync(sender_, "body", "ready", "")
+        BridgeHandleAsync(receiver, "body", "ready", "")
     }
     
     func userContentController(_ userContentController: WKUserContentController,
@@ -100,16 +130,22 @@ class WebView: WKWebView, WKScriptMessageHandler, WKNavigationDelegate
     {
         do
         {
-            let message_data = (message.body as! String).data(using: String.Encoding.utf8)!
-            let message_dictionary = try JSONSerialization.jsonObject(with: message_data,
-                options: JSONSerialization.ReadingOptions.init()) as! [String : Any]
+            guard let body = message.body as? String,
+                  let message_data = body.data(using: .utf8),
+                  let message_dictionary = try JSONSerialization.jsonObject(
+                    with: message_data) as? [String : Any],
+                  let receiver = message_dictionary["Receiver"] as? NSNumber,
+                  let id = message_dictionary["id"] as? String,
+                  let command = message_dictionary["command"] as? String,
+                  let info = message_dictionary["info"] as? String
+            else
+            {
+                return
+            }
             DispatchQueue.main.async
             {
                 BridgeHandleAsync(
-                    message_dictionary["Receiver"] as! Int32,
-                    message_dictionary["id"] as? String,
-                    message_dictionary["command"] as? String,
-                    message_dictionary["info"] as? String)
+                    receiver.int32Value, id, command, info)
             }
         }
         catch
