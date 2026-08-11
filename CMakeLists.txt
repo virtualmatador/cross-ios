@@ -95,28 +95,44 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME} PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Assets.xcassets" "${CMAKE_CURRENT_BINARY_DIR}/Assets.xcassets"
 )
 
-file(CONFIGURE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp/deploy.json"
+set(ipa_title "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${BUILD_NUMBER}")
+set(export_dir "${CMAKE_CURRENT_BINARY_DIR}/export")
+set(ipa_path "${export_dir}/${ipa_title}.ipa")
+set(app_store_info "${export_dir}/AppStoreInfo.plist")
+set(archive_path "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive")
+
+file(CONFIGURE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/deploy.json"
      CONTENT [=[
 {
   "apple-id": "@CROSS_DEVELOPER_APPLE_ID@",
-  "title": "@CMAKE_PROJECT_NAME@",
-  "provider": "@CROSS_TEAM_ID@"
+  "provider": "@CROSS_TEAM_ID@",
+  "ipa-path": "export/@ipa_title@.ipa",
+  "plist-path": "export/AppStoreInfo.plist"
 }
 ]=])
 
-add_custom_target("ipa" ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp")
-add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp"
+add_custom_command(
+    OUTPUT
+        "${ipa_path}"
+        "${app_store_info}"
     COMMAND xcodebuild -project "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcodeproj"
         -scheme "${CMAKE_PROJECT_NAME}"
         -configuration ${CMAKE_BUILD_TYPE}
         -derivedDataPath "${CMAKE_CURRENT_BINARY_DIR}/DerivedData"
-        -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive"
-        -destination 'generic/platform=iOS' archive
+        -archivePath "${archive_path}"
+        -destination "generic/platform=iOS" archive
     COMMAND xcodebuild -exportArchive
-        -archivePath "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.xcarchive"
-        -exportPath "${CMAKE_CURRENT_BINARY_DIR}/archive.itmsp"
+        -archivePath "${archive_path}"
+        -exportPath "${export_dir}"
         -exportOptionsPlist "${CMAKE_CURRENT_SOURCE_DIR}/ipa.plist"
         -allowProvisioningUpdates
+    COMMAND ${CMAKE_COMMAND} -E rename
+        "${export_dir}/${CMAKE_PROJECT_NAME}.ipa"
+        "${ipa_path}"
+    DEPENDS
+        ${CMAKE_PROJECT_NAME}
+        "${CMAKE_CURRENT_SOURCE_DIR}/ipa.plist"
+    VERBATIM
 )
 
-add_dependencies("ipa" ${CMAKE_PROJECT_NAME})
+add_custom_target("ipa" ALL DEPENDS "${ipa_path}" "${app_store_info}")
