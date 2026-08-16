@@ -10,14 +10,19 @@
 #include "../extern/core/src/bridge.h"
 #include "../extern/core/src/cross.h"
 
+#include <memory>
+#include <sstream>
+#include <string>
+#include <utility>
+
 void* me_;
 FN_LOAD_VIEW load_view_;
 FN_SET_SCREEN_ON set_screen_on_;
 FN_SET_AUDIO_NO_SOLO set_audio_no_solo_;
 FN_SET_LAYOUT set_layout_;
 FN_CALL_FUNCTION call_function_;
-FN_GET_PREFERENCE get_preference_;
-FN_SET_PREFERENCE set_preference_;
+FN_GET_SAVE get_save_;
+FN_SET_SAVE set_save_;
 FN_ASYNC_MESSAGE async_message_;
 FN_ADD_PARAM add_param_;
 FN_POST_HTTP post_http_;
@@ -25,7 +30,7 @@ FN_CREATE_IMAGE create_image_;
 FN_RESET_IMAGE reset_image_;
 FN_EXIT exit_;
 
-std::string preference_;
+std::string save_;
 
 void bridge::LoadView(const std::int32_t sender, const char* html)
 {
@@ -52,15 +57,26 @@ void bridge::CallFunction(const char* function)
     call_function_(me_, function);
 }
 
-std::string bridge::GetPreference(const char* key)
+void bridge::Restore(application::Completion completion)
 {
-    get_preference_(me_, key);
-    return preference_;
+    get_save_(me_);
+    auto input = std::make_shared<std::istringstream>(save_);
+    application::Restore(*input,
+        [input, completion = std::move(completion)]() mutable
+        {
+            completion();
+            input.reset();
+        });
 }
 
-void bridge::SetPreference(const char* key, const char* value)
+void bridge::Checkpoint()
 {
-    set_preference_(me_, key, value);
+    std::ostringstream output;
+    application::Checkpoint(output);
+    if (!output)
+        return;
+    const std::string save = output.str();
+    set_save_(me_, save.c_str());
 }
 
 void bridge::AsyncMessage(std::int32_t sender, const char* id, const char* command, const char* info)
@@ -99,8 +115,8 @@ void BridgeSetup(void* me,
                  FN_SET_AUDIO_NO_SOLO set_audio_no_solo,
                  FN_SET_LAYOUT set_layout,
                  FN_CALL_FUNCTION call_function,
-                 FN_GET_PREFERENCE get_preference,
-                 FN_SET_PREFERENCE set_preference,
+                 FN_GET_SAVE get_save,
+                 FN_SET_SAVE set_save,
                  FN_ASYNC_MESSAGE async_message,
                  FN_ADD_PARAM add_param,
                  FN_POST_HTTP post_http,
@@ -114,8 +130,8 @@ void BridgeSetup(void* me,
     set_audio_no_solo_ = set_audio_no_solo;
     set_layout_ = set_layout;
     call_function_ = call_function;
-    get_preference_ = get_preference;
-    set_preference_ = set_preference;
+    get_save_ = get_save;
+    set_save_ = set_save;
     async_message_ = async_message;
     add_param_ = add_param;
     post_http_ = post_http;
@@ -177,7 +193,7 @@ void BridgeHandleAsync(std::int32_t sender, const char* id, const char* command,
     cross::HandleAsync(sender, id, command, info);
 }
 
-void BridgeStorePreference(const char* preference)
+void BridgeStoreSave(const char* save)
 {
-    preference_ = preference;
+    save_ = save ? save : "";
 }

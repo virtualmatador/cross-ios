@@ -18,8 +18,8 @@ extern "C"
     typedef void (*FN_SET_AUDIO_NO_SOLO)(void* me, const __int32_t audio_no_solo);
     typedef void (*FN_SET_LAYOUT)(void* me, const __int32_t portrait, const __int32_t landscape);
     typedef void (*FN_CALL_FUNCTION)(void* me, const char* function);
-    typedef void (*FN_GET_PREFERENCE)(void* me, const char* key);
-    typedef void (*FN_SET_PREFERENCE)(void* me, const char* key, const char* value);
+    typedef void (*FN_GET_SAVE)(void* me);
+    typedef void (*FN_SET_SAVE)(void* me, const char* save);
     typedef void (*FN_ASYNC_MESSAGE)(void* me, const __int32_t sender, const char* id, const char* command, const char* info);
     typedef void (*FN_ADD_PARAM)(void* me, const char* key, const char* value);
     typedef void (*FN_POST_HTTP)(void* me, const __int32_t sender, const char* id, const char* command, const char* url);
@@ -33,8 +33,8 @@ extern "C"
                      FN_SET_AUDIO_NO_SOLO set_audio_no_solo,
                      FN_SET_LAYOUT set_layout,
                      FN_CALL_FUNCTION call_function,
-                     FN_GET_PREFERENCE get_preference,
-                     FN_SET_PREFERENCE set_preference,
+                     FN_GET_SAVE get_save,
+                     FN_SET_SAVE set_save,
                      FN_ASYNC_MESSAGE async_message,
                      FN_ADD_PARAM add_param,
                      FN_POST_HTTP post_http,
@@ -51,7 +51,7 @@ extern "C"
     void BridgeEscape();
     void BridgeHandle(const char* id, const char* command, const char* info);
     void BridgeHandleAsync(__int32_t sender, const char* id, const char* command, const char* info);
-    void BridgeStorePreference(const char* preference);
+    void BridgeStoreSave(const char* save);
 
 #ifdef __cplusplus
 }

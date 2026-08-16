@@ -80,16 +80,17 @@ class AppDelegate: NSObject, UIApplicationDelegate
                     app.ui_state_.WebCallFunction(script)
                 }
         },
-            // GetPreference
-            {(me, key) in
-            let preference = UserDefaults.standard.string(forKey: String(cString : key!)) ?? ""
-            preference.withCString({(buffer)->Void in
-                BridgeStorePreference(buffer)
-            })
+            // GetSave
+            {(me) in
+                let save = UserDefaults.standard.string(forKey: "SAVE") ?? ""
+                save.withCString({(buffer)->Void in
+                    BridgeStoreSave(buffer)
+                })
         },
-            // SetPreference
-            {(me, key, value) in
-                UserDefaults.standard.set(String(cString: value!), forKey: String(cString: key!))
+            // SetSave
+            {(me, save) in
+                UserDefaults.standard.set(
+                    String(cString: save!), forKey: "SAVE")
         },
             // AsyncMessage
             {(me, sender, id, command, info) in
